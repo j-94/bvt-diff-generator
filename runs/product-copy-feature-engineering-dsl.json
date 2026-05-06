@@ -1,0 +1,108 @@
+{
+  "intent": "tighten UI factory feature engineering and replace weak CTAs with concrete operator actions",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<p class='lead'>If we can convert typed ops",
+      "line": "          <p class='lead'>Codex submits one product intent. The proxy expands it into thousands of UI patch candidates, clusters the useful signals, and returns the smallest admissible site change with tests, rollback, and receipts attached.</p>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<h2>Standard UI Build</h2>",
+      "line": "            <div class='lane-head'><h2>Manual UI Iteration</h2><span class='tag'>one candidate per loop</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<h2>BVT Diff Proxy UI Factory</h2>",
+      "line": "            <div class='lane-head'><h2>BVT Candidate Factory</h2><span class='tag'>intent -> ranked UI diffs</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<span>candidate UIs/sec</span>",
+      "line": "              <div class='meter'><span>ranked UI diffs/sec</span><strong id='fastCandidates'>0</strong></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<span>admission</span><strong>gated</strong>",
+      "line": "              <div class='meter'><span>admission</span><strong>receipt</strong></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "UI/sec is a candidate-generation estimate",
+      "line": "      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Feature claim: this accelerates candidate generation and ranking; admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.<span class='ticker'></span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<h2>Killer Feature: Distillation Gate</h2>",
+      "line": "            <div class='lane-head'><h2>Killer Feature: Distillation Gate</h2><span class='tag'>candidate swarm -> admitted packet</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "The engine generates many UI diffs",
+      "line": "                    <p id='distCopy'>The engine extracts repeated layout wins, rejects noisy variants, and emits one compact packet: selected diff, evidence, rollback, and receipt.</p>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<span class='cta fill'>Admit spec</span>",
+      "line": "                    <div class='cta-row'><span class='cta fill'>Promote selected diff</span><span class='cta'>Open rollback packet</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<h2>Why It Matters</h2>",
+      "line": "            <div class='lane-head'><h2>One Surface Control</h2><span class='tag'>operator action</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "The high-level agent asks for a product outcome",
+      "line": "                  <p>The high-level agent submits one outcome. The proxy explores, ranks, and compresses UI diffs; the operator reviews one selected transition instead of babysitting patch text.</p>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<span class='cta fill'>small spec</span>",
+      "line": "                  <div class='cta-row'><span class='cta fill'>Submit product intent</span><span class='cta'>Review selected diff</span><span class='cta'>Export receipt</span></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "const themes = [",
+      "line": "      const themes = ["
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "AtlasDesk",
+      "line": "        { cls: '', brand: 'AtlasDesk', title: 'Route one product intent', copy: 'Declare the desired page outcome once; keep constraints and rollback in the packet.', cta: 'Submit intent', secondary: 'View constraints' },"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "PatchLab",
+      "line": "        { cls: 'dark', brand: 'PatchLab', title: 'Sweep UI candidates', copy: 'Generate and rank layout, copy, and theme diffs before spending review attention.', cta: 'Run candidate sweep', secondary: 'Inspect ranking' },"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "ReceiptOS",
+      "line": "        { cls: 'warm', brand: 'ReceiptOS', title: 'Promote the admitted diff', copy: 'Ship only the selected patch packet with evidence, rollback, and receipt metadata.', cta: 'Promote diff', secondary: 'Open receipt' }"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<span class=\"cta\">Inspect diff</span>",
+      "line": "        target.innerHTML = '<div class=\"nav\"><b>' + theme.brand + '</b><small>generated UI</small></div><div class=\"hero-ui\"><h3>' + theme.title + '</h3><p>' + theme.copy + '</p><div class=\"cta-row\"><span class=\"cta fill\">' + theme.cta + '</span><span class=\"cta\">' + theme.secondary + '</span></div></div><div class=\"ui-grid\"><div class=\"tile\"></div><div class=\"tile\"></div><div class=\"tile\"></div></div>';"
+    }
+  ]
+}

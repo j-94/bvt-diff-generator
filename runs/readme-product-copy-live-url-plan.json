@@ -1,0 +1,24 @@
+{
+  "intent": "update README after tightening UI factory feature engineering and CTAs",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 5,
+      "end": 5,
+      "lines": [
+        "Live site: https://site-3hp0zhusy-jasedgws-projects.vercel.app"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 11,
+      "end": 11,
+      "lines": [
+        "Killer feature: Distillation Gate compresses many generated UI diffs into one selected transition: promoted diff, evidence packet, rollback packet, and receipt."
+      ]
+    }
+  ]
+}

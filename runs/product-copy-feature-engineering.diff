@@ -1,0 +1,94 @@
+--- a/site/index.html
++++ b/site/index.html
+       <header class='top'>
+         <div>
+           <h1>BVT UI Factory</h1>
+-          <p class='lead'>If we can convert typed ops into tens of thousands of patch artifacts per second, UI work changes shape: Codex should specify the product intent once, then the proxy can generate many candidate site diffs before BVT admits the best rendered result.</p>
++          <p class='lead'>Codex submits one product intent. The proxy expands it into thousands of UI patch candidates, clusters the useful signals, and returns the smallest admissible site change with tests, rollback, and receipts attached.</p>
+         </div>
+         <nav class='links'>
+           <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
+       <div class='stage-wrap'>
+         <section class='stage' aria-label='UI creation speed comparison'>
+           <article class='lane slow'>
+-            <div class='lane-head'><h2>Standard UI Build</h2><span class='tag'>one patch at a time</span></div>
++            <div class='lane-head'><h2>Manual UI Iteration</h2><span class='tag'>one candidate per loop</span></div>
+             <div class='meters'>
+               <div class='meter'><span>candidate UIs</span><strong id='slowCandidates'>1</strong></div>
+               <div class='meter'><span>patch mode</span><strong>manual</strong></div>
+           </article>
+ 
+           <article class='lane fast'>
+-            <div class='lane-head'><h2>BVT Diff Proxy UI Factory</h2><span class='tag'>intent -> many UI diffs</span></div>
++            <div class='lane-head'><h2>BVT Candidate Factory</h2><span class='tag'>intent -> ranked UI diffs</span></div>
+             <div class='meters'>
+-              <div class='meter'><span>candidate UIs/sec</span><strong id='fastCandidates'>0</strong></div>
++              <div class='meter'><span>ranked UI diffs/sec</span><strong id='fastCandidates'>0</strong></div>
+               <div class='meter'><span>patches/sec</span><strong id='fastPatches'>0</strong></div>
+               <div class='meter'><span>diff output/sec</span><strong>32MB</strong></div>
+-              <div class='meter'><span>admission</span><strong>gated</strong></div>
++              <div class='meter'><span>admission</span><strong>receipt</strong></div>
+             </div>
+             <div class='workspace'>
+               <div class='canvas'><div id='fastPreview' class='preview dark'></div></div>
+         </section>
+       </div>
+ 
+-      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. UI/sec is a candidate-generation estimate, not an admitted-quality claim; rendered checks and BVT gates still decide what ships.<span class='ticker'></span></div>
++      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Feature claim: this accelerates candidate generation and ranking; admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.<span class='ticker'></span></div>
+ 
+       <div class='stage-wrap' style='margin-top:14px'>
+         <section class='stage' aria-label='Distillation gate feature'>
+           <article class='lane fast' style='min-height:420px'>
+-            <div class='lane-head'><h2>Killer Feature: Distillation Gate</h2><span class='tag'>many diffs -> one spec</span></div>
++            <div class='lane-head'><h2>Killer Feature: Distillation Gate</h2><span class='tag'>candidate swarm -> admitted packet</span></div>
+             <div class='meters'>
+               <div class='meter'><span>candidate diffs</span><strong id='distCandidates'>0</strong></div>
+               <div class='meter'><span>kept signals</span><strong id='distSignals'>0</strong></div>
+                   <div class='nav'><b>Distilled UI Packet</b><small>live compression</small></div>
+                   <div class='hero-ui'>
+                     <h3 id='distTitle'>Collecting variants</h3>
+-                    <p id='distCopy'>The engine generates many UI diffs, extracts repeated wins, rejects noisy patches, and carries one small spec forward.</p>
+-                    <div class='cta-row'><span class='cta fill'>Admit spec</span><span class='cta'>Rollback ready</span></div>
++                    <p id='distCopy'>The engine extracts repeated layout wins, rejects noisy variants, and emits one compact packet: selected diff, evidence, rollback, and receipt.</p>
++                    <div class='cta-row'><span class='cta fill'>Promote selected diff</span><span class='cta'>Open rollback packet</span></div>
+                   </div>
+                   <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
+                 </div>
+             </div>
+           </article>
+           <article class='lane' style='min-height:420px'>
+-            <div class='lane-head'><h2>Why It Matters</h2><span class='tag'>not just speed</span></div>
++            <div class='lane-head'><h2>One Surface Control</h2><span class='tag'>operator action</span></div>
+             <div class='canvas' style='border-right:0'>
+               <div class='preview warm' style='min-height:330px'>
+                 <div class='nav'><b>One Surface</b><small>S + Delta + C</small></div>
+                 <div class='hero-ui'>
+                   <h3>Codex speaks once.</h3>
+-                  <p>The high-level agent asks for a product outcome. The proxy explores UI diffs at machine speed, then returns the smallest useful transition with receipts.</p>
+-                  <div class='cta-row'><span class='cta fill'>small spec</span><span class='cta'>many candidates</span><span class='cta'>bounded claim</span></div>
++                  <p>The high-level agent submits one outcome. The proxy explores, ranks, and compresses UI diffs; the operator reviews one selected transition instead of babysitting patch text.</p>
++                  <div class='cta-row'><span class='cta fill'>Submit product intent</span><span class='cta'>Review selected diff</span><span class='cta'>Export receipt</span></div>
+                 </div>
+                 <div class='variant-grid' id='distVariants'></div>
+               </div>
+ 
+     <script>
+       const themes = [
+-        { cls: '', brand: 'AtlasDesk', title: 'Plan the work surface', copy: 'A quiet operating UI for decisions, receipts, and next actions.', cta: 'Open desk' },
+-        { cls: 'dark', brand: 'PatchLab', title: 'Generate UI candidates', copy: 'Typed deltas become page variants, diffs, and receipts.', cta: 'Run factory' },
+-        { cls: 'warm', brand: 'ReceiptOS', title: 'Ship the admitted state', copy: 'Every visual change carries a rollback path and evidence.', cta: 'View receipt' }
++        { cls: '', brand: 'AtlasDesk', title: 'Route one product intent', copy: 'Declare the desired page outcome once; keep constraints and rollback in the packet.', cta: 'Submit intent', secondary: 'View constraints' },
++        { cls: 'dark', brand: 'PatchLab', title: 'Sweep UI candidates', copy: 'Generate and rank layout, copy, and theme diffs before spending review attention.', cta: 'Run candidate sweep', secondary: 'Inspect ranking' },
++        { cls: 'warm', brand: 'ReceiptOS', title: 'Promote the admitted diff', copy: 'Ship only the selected patch packet with evidence, rollback, and receipt metadata.', cta: 'Promote diff', secondary: 'Open receipt' }
+       ];
+       const ops = ['intent packet', 'layout DSL', 'theme swap', 'copy variant', 'diff render', 'visual check', 'BVT gate'];
+       const diffRows = [[' ', 'S: product intent'], ['+', 'Delta: hero + nav + CTA'], ['+', 'Delta: dashboard section'], ['+', 'Delta: theme variant'], ['+', 'Receipt: renderable UI diff']];
+       let tick = 0;
+       function ui(target, theme) {
+         target.className = 'preview ' + theme.cls;
+-        target.innerHTML = '<div class="nav"><b>' + theme.brand + '</b><small>generated UI</small></div><div class="hero-ui"><h3>' + theme.title + '</h3><p>' + theme.copy + '</p><div class="cta-row"><span class="cta fill">' + theme.cta + '</span><span class="cta">Inspect diff</span></div></div><div class="ui-grid"><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>';
++        target.innerHTML = '<div class="nav"><b>' + theme.brand + '</b><small>generated UI</small></div><div class="hero-ui"><h3>' + theme.title + '</h3><p>' + theme.copy + '</p><div class="cta-row"><span class="cta fill">' + theme.cta + '</span><span class="cta">' + theme.secondary + '</span></div></div><div class="ui-grid"><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>';
+       }
+       function opNode(name, pct) {
+         const el = document.createElement('div');
