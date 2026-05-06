@@ -1,0 +1,24 @@
+{
+  "intent": "update README with horizontal causal chat comparison deployment URL and latest patch-throughput note",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 5,
+      "end": 5,
+      "lines": [
+        "Live site: https://site-pxiew51dc-jasedgws-projects.vercel.app"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 7,
+      "end": 7,
+      "lines": [
+        "Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch."
+      ]
+    }
+  ]
+}
