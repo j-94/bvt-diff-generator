@@ -1,0 +1,51 @@
+{
+  "intent": "repair the generated site after broad line-containing anchors hit JavaScript strings",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 120,
+      "end": 120,
+      "lines": [
+        "      <div class='receipt' id='receiptLine'>Benchmark: 1.412M ops/sec converts to 44,122 actual unified patches/sec at 776 bytes/patch<span class='blink'></span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 125,
+      "end": 125,
+      "lines": [
+        "        'read file, infer line numbers, hand-write one patch...',"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 135,
+      "end": 135,
+      "lines": [
+        "        'compile-dsl -> typed ops; bench converts 320k ops into 10k patches',"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 136,
+      "end": 136,
+      "lines": [
+        "        'generate -> 10,000 unified patch artifacts in 227ms',"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 189,
+      "end": 189,
+      "lines": [
+        "          : 'S: repo files | Delta: typed ops | C: render/apply checks | S\\': actual unified patches<span class=\\'blink\\'></span>';"
+      ]
+    }
+  ]
+}

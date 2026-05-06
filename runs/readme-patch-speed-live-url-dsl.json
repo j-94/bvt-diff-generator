@@ -1,0 +1,21 @@
+{
+  "intent": "update README with the deployed patch-throughput animation URL",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-m6hx43m6i-jasedgws-projects.vercel.app"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "lines": [
+        "",
+        "Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.23s, or about 41k-44k patches/sec at ~776 bytes/patch."
+      ]
+    }
+  ]
+}

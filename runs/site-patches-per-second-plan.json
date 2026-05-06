@@ -1,0 +1,123 @@
+{
+  "intent": "make the live animation show ops converted into actual patch artifacts per second",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 77,
+      "end": 77,
+      "lines": [
+        "          <p class='lead'>The speedup is now measured as actual unified patch artifacts. Codex without the proxy hand-writes fragile diffs; Codex with the BVT proxy converts typed ops into about 44k candidate patches/sec on the local release benchmark.</p>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 89,
+      "end": 89,
+      "lines": [
+        "            <div class='meter'><span>patches/sec</span><strong id='rawOps'>0</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 100,
+      "end": 100,
+      "lines": [
+        "            <div class='meter'><span>patches/sec</span><strong id='proxyOps'>0</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 102,
+      "end": 102,
+      "lines": [
+        "            <div class='meter'><span>patch bytes/sec</span><strong id='proxyReceipt'>34MB</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 111,
+      "end": 111,
+      "lines": [
+        "          <div class='bar-label'><span>Raw patch drift</span><strong id='rawPct'>manual</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 115,
+      "end": 115,
+      "lines": [
+        "          <div class='bar-label'><span>Ops converted into patch artifacts</span><strong id='proxyPct'>0%</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 125,
+      "end": 125,
+      "lines": [
+        "        'read file, infer line numbers, hand-write one patch...'"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 135,
+      "end": 135,
+      "lines": [
+        "        'compile-dsl -> typed ops; bench converts 320k ops into 10k patches'"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 136,
+      "end": 136,
+      "lines": [
+        "        'generate -> 10,000 unified patch artifacts in 227ms'"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 180,
+      "end": 180,
+      "lines": [
+        "        els.proxyOps.textContent = tick < 8 ? String((tick * 5500).toLocaleString()) : '44k';"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 188,
+      "end": 188,
+      "lines": [
+        "          ? 'Receipt: 320k ops -> 10k patch artifacts -> 7.76MB diff output in 227ms<span class=\\'blink\\'></span>'"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 120,
+      "end": 120,
+      "lines": [
+        "          : 'S: repo files | Delta: typed ops | C: render/apply checks | S\\': actual unified patches<span class=\\'blink\\'></span>';"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 120,
+      "end": 120,
+      "lines": [
+        "      <div class='receipt' id='receiptLine'>Benchmark: 1.407M ops/sec converts to 43,979 actual unified patches/sec at 776 bytes/patch<span class='blink'></span></div>"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+--- a/site/index.html
++++ b/site/index.html
+         </div>
+       </section>
+ 
+-          : 'S: repo files | Delta: typed ops | C: render/apply checks | S\': actual unified patches<span class=\'blink\'></span>';
++      <div class='receipt' id='receiptLine'>Benchmark: 1.412M ops/sec converts to 44,122 actual unified patches/sec at 776 bytes/patch<span class='blink'></span></div>
+     </main>
+ 
+     <script>
+       const rawLines = [
+-        'read file, infer line numbers, hand-write one patch...'
++        'read file, infer line numbers, hand-write one patch...',
+         'maybe replace beta, maybe insert delta, re-count context...',
+         'emit patch text; hope hunk headers match current file...',
+         'retry after context drift; no typed receipt yet...',
+         'ICL: examples select the transition shape',
+         'DSL: replace_line_containing(example.txt, beta, BETA)',
+         'DSL: insert_after_containing(example.txt, gamma, delta)',
+-        'compile-dsl -> typed ops; bench converts 320k ops into 10k patches'
+-        'generate -> 10,000 unified patch artifacts in 227ms'
++        'compile-dsl -> typed ops; bench converts 320k ops into 10k patches',
++        'generate -> 10,000 unified patch artifacts in 227ms',
+         'apply -> S prime only after control checks'
+       ];
+       const rawDiff = [['-', 'beta'], ['+', 'BETA?'], ['?', 'hunk context guessed']];
+         renderDiff(els.proxyDiff, proxyDiff.slice(0, 1 + (tick % proxyDiff.length)));
+         els.receiptLine.innerHTML = tick % 3 === 0
+           ? 'Receipt: 320k ops -> 10k patch artifacts -> 7.76MB diff output in 227ms<span class=\'blink\'></span>'
+-          : 'S: repo files | Delta: DSL actions | C: path safety + anchors + receipts | S\': candidate diff<span class=\'blink\'></span>';
++          : 'S: repo files | Delta: typed ops | C: render/apply checks | S\': actual unified patches<span class=\'blink\'></span>';
+       }
+       renderDiff(els.rawDiff, rawDiff.slice(0, 1));
+       renderDiff(els.proxyDiff, proxyDiff.slice(0, 1));

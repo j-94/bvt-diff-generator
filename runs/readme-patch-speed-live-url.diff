@@ -1,0 +1,12 @@
+--- a/README.md
++++ b/README.md
+ 
+ Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
+ 
+-Live site: https://site-o4hctkeup-jasedgws-projects.vercel.app
++Live site: https://site-m6hx43m6i-jasedgws-projects.vercel.app
++
++Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.23s, or about 41k-44k patches/sec at ~776 bytes/patch.
+ 
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+ 

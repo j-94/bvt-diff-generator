@@ -1,0 +1,80 @@
+--- a/site/index.html
++++ b/site/index.html
+       <div class='top'>
+         <div>
+           <h1>BVT Diff Generator</h1>
+-          <p class='lead'>Codex on the left spends tokens hand-writing patch text. Codex on the right emits ICL-shaped DSL, then the local proxy compiles it into typed ops, diffs, and receipts in real time.</p>
++          <p class='lead'>The speedup is now measured as actual unified patch artifacts. Codex without the proxy hand-writes fragile diffs; Codex with the BVT proxy converts typed ops into about 44k candidate patches/sec on the local release benchmark.</p>
+         </div>
+         <nav class='links'>
+           <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
+         <article class='lane'>
+           <div class='lane-head'><h2>Codex without proxy</h2><span class='pill'>raw patch text</span></div>
+           <div class='meters'>
+-            <div class='meter'><span>ops/sec</span><strong id='rawOps'>0</strong></div>
++            <div class='meter'><span>patches/sec</span><strong id='rawOps'>0</strong></div>
+             <div class='meter'><span>apply risk</span><strong id='rawRisk'>high</strong></div>
+             <div class='meter'><span>receipt</span><strong id='rawReceipt'>none</strong></div>
+           </div>
+         <article class='lane proxy'>
+           <div class='lane-head'><h2>Codex with BVT proxy</h2><span class='pill'>ICL -> DSL -> ops</span></div>
+           <div class='meters'>
+-            <div class='meter'><span>ops/sec</span><strong id='proxyOps'>0</strong></div>
++            <div class='meter'><span>patches/sec</span><strong id='proxyOps'>0</strong></div>
+             <div class='meter'><span>apply risk</span><strong id='proxyRisk'>gated</strong></div>
+-            <div class='meter'><span>receipt</span><strong id='proxyReceipt'>ready</strong></div>
++            <div class='meter'><span>patch bytes/sec</span><strong id='proxyReceipt'>34MB</strong></div>
+           </div>
+           <div class='terminal'><pre id='proxyStream'></pre></div>
+           <div class='diff' id='proxyDiff'></div>
+ 
+       <section class='bars'>
+         <div class='bar-wrap'>
+-          <div class='bar-label'><span>Raw patch drift</span><strong id='rawPct'>0%</strong></div>
++          <div class='bar-label'><span>Raw patch drift</span><strong id='rawPct'>manual</strong></div>
+           <div class='bar'><div class='fill' id='rawBar'></div></div>
+         </div>
+         <div class='bar-wrap'>
+-          <div class='bar-label'><span>Proxy admission pipeline</span><strong id='proxyPct'>0%</strong></div>
++          <div class='bar-label'><span>Ops converted into patch artifacts</span><strong id='proxyPct'>0%</strong></div>
+           <div class='bar'><div class='fill proxy-fill' id='proxyBar'></div></div>
+         </div>
+       </section>
+ 
+-      <div class='receipt' id='receiptLine'>S: repo files | Delta: DSL actions | C: path safety + anchors + receipts | S': candidate diff<span class='blink'></span></div>
++          : 'S: repo files | Delta: typed ops | C: render/apply checks | S\': actual unified patches<span class=\'blink\'></span>';
+     </main>
+ 
+     <script>
+       const rawLines = [
+-        'read file, infer line numbers, draft raw diff...',
++        'read file, infer line numbers, hand-write one patch...'
+         'maybe replace beta, maybe insert delta, re-count context...',
+         'emit patch text; hope hunk headers match current file...',
+         'retry after context drift; no typed receipt yet...',
+         'ICL: examples select the transition shape',
+         'DSL: replace_line_containing(example.txt, beta, BETA)',
+         'DSL: insert_after_containing(example.txt, gamma, delta)',
+-        'compile-dsl -> 2 typed edit ops',
+-        'generate -> unified diff + receipt',
++        'compile-dsl -> typed ops; bench converts 320k ops into 10k patches'
++        'generate -> 10,000 unified patch artifacts in 227ms'
+         'apply -> S prime only after control checks'
+       ];
+       const rawDiff = [['-', 'beta'], ['+', 'BETA?'], ['?', 'hunk context guessed']];
+         const raw = Math.min(94, 18 + tick * 7);
+         const proxy = Math.min(100, 26 + tick * 13);
+         els.rawOps.textContent = String(20 + (tick % 5) * 7);
+-        els.proxyOps.textContent = tick < 8 ? String((tick * 178000).toLocaleString()) : '1.4M';
++        els.proxyOps.textContent = tick < 8 ? String((tick * 5500).toLocaleString()) : '44k';
+         els.rawBar.style.width = raw + '%';
+         els.proxyBar.style.width = proxy + '%';
+         els.rawPct.textContent = raw + '%';
+         renderDiff(els.rawDiff, rawDiff.slice(0, 1 + (tick % rawDiff.length)));
+         renderDiff(els.proxyDiff, proxyDiff.slice(0, 1 + (tick % proxyDiff.length)));
+         els.receiptLine.innerHTML = tick % 3 === 0
+-          ? 'Receipt: op_count=2 | file_count=1 | control=relative_paths,line_ranges,unified_diff<span class=\'blink\'></span>'
++          ? 'Receipt: 320k ops -> 10k patch artifacts -> 7.76MB diff output in 227ms<span class=\'blink\'></span>'
+           : 'S: repo files | Delta: DSL actions | C: path safety + anchors + receipts | S\': candidate diff<span class=\'blink\'></span>';
+       }
+       renderDiff(els.rawDiff, rawDiff.slice(0, 1));

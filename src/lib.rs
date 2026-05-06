@@ -106,9 +106,13 @@ pub struct Receipt {
 pub struct BenchReceipt {
     pub iterations: usize,
     pub ops_per_iteration: usize,
+    pub generated_patch_count: usize,
     pub elapsed_ms: f64,
     pub ops_per_second: f64,
+    pub patches_per_second: f64,
     pub generated_diff_bytes: usize,
+    pub diff_bytes_per_second: f64,
+    pub average_patch_bytes: f64,
 }
 
 pub fn load_plan(path: &Path) -> Result<DiffPlan> {
@@ -289,16 +293,34 @@ pub fn benchmark(iterations: usize, ops_per_iteration: usize) -> Result<BenchRec
     }
     let elapsed = started.elapsed().as_secs_f64();
     let total_ops = iterations.saturating_mul(ops_per_iteration);
+    let patches_per_second = if elapsed > 0.0 {
+        iterations as f64 / elapsed
+    } else {
+        0.0
+    };
+    let diff_bytes_per_second = if elapsed > 0.0 {
+        generated_diff_bytes as f64 / elapsed
+    } else {
+        0.0
+    };
     Ok(BenchReceipt {
         iterations,
         ops_per_iteration,
+        generated_patch_count: iterations,
         elapsed_ms: elapsed * 1000.0,
         ops_per_second: if elapsed > 0.0 {
             total_ops as f64 / elapsed
         } else {
             0.0
         },
+        patches_per_second,
         generated_diff_bytes,
+        diff_bytes_per_second,
+        average_patch_bytes: if iterations > 0 {
+            generated_diff_bytes as f64 / iterations as f64
+        } else {
+            0.0
+        },
     })
 }
 
@@ -482,5 +504,14 @@ mod tests {
         assert!(diff.contains("--- a/x.txt"));
         assert!(diff.contains("-b"));
         assert!(diff.contains("+c"));
+    }
+
+    #[test]
+    fn benchmark_reports_patch_conversion() {
+        let receipt = benchmark(10, 4).unwrap();
+        assert_eq!(receipt.generated_patch_count, 10);
+        assert!(receipt.patches_per_second > 0.0);
+        assert!(receipt.diff_bytes_per_second > 0.0);
+        assert!(receipt.average_patch_bytes > 0.0);
     }
 }
