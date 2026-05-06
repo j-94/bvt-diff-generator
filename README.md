@@ -2,7 +2,7 @@
 
 Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
 
-Live site: https://site-5u8szgowq-jasedgws-projects.vercel.app
+Live site: https://site-ao7xzhxb3-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
@@ -11,6 +11,8 @@ UI factory claim boundary: this throughput can create many candidate UI diffs qu
 Killer feature: Distillation Gate compresses many generated UI diffs into one selected transition: promoted diff, evidence packet, rollback packet, and receipt.
 
 Real run: `runs/e2e-ui-run` shows `compile-dsl -> generate -> apply` turning one UI intent packet into `ui-run.diff`, receipts, and a generated `workspace/index.html` page.
+
+DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence.
 
 This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
 

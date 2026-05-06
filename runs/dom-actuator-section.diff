@@ -1,0 +1,103 @@
+--- a/site/index.html
++++ b/site/index.html
+               <div class='line-no'>result</div><div class='plus'>+ runs/e2e-ui-run/workspace/index.html</div>
+             </div>
+             <div class='claim' style='margin:14px'>This is the honest end-to-end path: a DSL intent packet was compiled into a plan, rendered as a unified patch, then applied into a real workspace with an apply receipt. It is a local generator run, not a claim that visual quality was production-admitted.</div>
++
++      <div class='stage-wrap' style='margin-top:14px'>
++        <section class='stage' aria-label='Direct DOM actuator demo'>
++          <article class='lane fast' style='min-height:430px'>
++            <div class='lane-head'><h2>Direct DOM Actuator</h2><span class='tag'>typed ops -> live nodes</span></div>
++            <div class='meters'>
++              <div class='meter'><span>DOM ops</span><strong id='domOpsCount'>0</strong></div>
++              <div class='meter'><span>mutations</span><strong id='domMutations'>0</strong></div>
++              <div class='meter'><span>surface</span><strong>DOM API</strong></div>
++              <div class='meter'><span>rollback</span><strong>snapshot</strong></div>
++            </div>
++            <div class='workspace'>
++              <div class='canvas'>
++                <div id='domActuatorTarget' class='preview warm' style='min-height:310px'>
++                  <div class='nav'><b data-slot='brand'>DOMDesk</b><small data-slot='status'>waiting</small></div>
++                  <div class='hero-ui'>
++                    <h3 data-slot='title'>Patch text is not the only actuator.</h3>
++                    <p data-slot='copy'>A typed packet can update live nodes directly, while the diff engine still preserves patch artifacts and receipts.</p>
++                    <div class='cta-row'><span class='cta fill' data-slot='primary'>Apply DOM packet</span><span class='cta' data-slot='secondary'>Capture rollback</span></div>
++                  </div>
++                  <div class='ui-grid' data-slot='tiles'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
++                </div>
++              </div>
++              <aside class='rail'><h3>DOM Packet</h3><div id='domOpsRail'></div></aside>
++            </div>
++          </article>
++          <article class='lane' style='min-height:430px'>
++            <div class='lane-head'><h2>Module Choice</h2><span class='tag'>small surface</span></div>
++            <div class='diff' style='grid-template-columns:108px 1fr'>
++              <div class='line-no'>best fit</div><div class='plus'>+ tiny DOM actuator module</div>
++              <div class='line-no'>ops</div><div>setText, setAttr, addClass, appendTile</div>
++              <div class='line-no'>evidence</div><div>MutationObserver count + rollback snapshot</div>
++              <div class='line-no'>zig</div><div>Zig can emit WASM ops later, but JS must call the browser DOM.</div>
++              <div class='line-no'>boundary</div><div>DOM speed is not visual admission; rendered checks still gate.</div>
++            </div>
++            <div class='claim' style='margin:14px'>The useful split is: BVT generates and receipts the transition; a DOM actuator applies small typed UI mutations in the browser; a later Zig/WASM kernel could compute op batches, but the DOM boundary remains JavaScript imports.</div>
++          </article>
++        </section>
++      </div>
+           </article>
+         </section>
+       </div>
+       }
+       renderDistillation();
+       setInterval(renderDistillation, 640);
++      const domPackets = [
++        [
++          { op: 'setText', selector: '[data-slot="status"]', value: 'compiling packet' },
++          { op: 'setText', selector: '[data-slot="title"]', value: 'Typed ops can move the live DOM.' },
++          { op: 'setText', selector: '[data-slot="primary"]', value: 'Apply node ops' }
++        ],
++        [
++          { op: 'setText', selector: '[data-slot="status"]', value: 'applying mutations' },
++          { op: 'setText', selector: '[data-slot="copy"]', value: 'The actuator edits text, attributes, classes, and child nodes without rebuilding the whole page.' },
++          { op: 'addClass', selector: '#domActuatorTarget', value: 'dark' }
++        ],
++        [
++          { op: 'setText', selector: '[data-slot="status"]', value: 'receipt ready' },
++          { op: 'setAttr', selector: '[data-slot="secondary"]', name: 'data-receipt', value: 'dom-actuator' },
++          { op: 'appendTile', selector: '[data-slot="tiles"]', value: 'receipt' }
++        ]
++      ];
++      const domTarget = document.getElementById('domActuatorTarget');
++      const domOpsRail = document.getElementById('domOpsRail');
++      const domOpsCount = document.getElementById('domOpsCount');
++      const domMutations = document.getElementById('domMutations');
++      const domSnapshot = domTarget.cloneNode(true);
++      let domTick = 0;
++      let mutationCount = 0;
++      new MutationObserver(records => { mutationCount += records.length; domMutations.textContent = String(mutationCount); }).observe(domTarget, { childList: true, subtree: true, characterData: true, attributes: true });
++      function applyDomOp(packetOp) {
++        const node = document.querySelector(packetOp.selector);
++        if (!node) return;
++        if (packetOp.op === 'setText') node.textContent = packetOp.value;
++        if (packetOp.op === 'setAttr') node.setAttribute(packetOp.name, packetOp.value);
++        if (packetOp.op === 'addClass') node.classList.add(packetOp.value);
++        if (packetOp.op === 'appendTile') {
++          const tile = document.createElement('div');
++          tile.className = 'tile';
++          tile.textContent = packetOp.value;
++          node.appendChild(tile);
++        }
++      }
++      function renderDomActuator() {
++        domTarget.className = domSnapshot.className;
++        domTarget.innerHTML = domSnapshot.innerHTML;
++        const packet = domPackets[domTick % domPackets.length];
++        packet.forEach(applyDomOp);
++        domOpsRail.innerHTML = '';
++        packet.forEach((packetOp, idx) => domOpsRail.appendChild(opNode(packetOp.op + ' ' + packetOp.selector, idx === packet.length - 1 ? 70 : 100)));
++        domOpsCount.textContent = String(packet.length);
++        domTick += 1;
++      }
++      renderDomActuator();
++      setInterval(renderDomActuator, 1100);
+     </script>
+   </body>
+ </html>

@@ -1,0 +1,21 @@
+{
+  "intent": "point README at the live site with direct DOM actuator demo",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-ao7xzhxb3-jasedgws-projects.vercel.app"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Real run:",
+      "lines": [
+        "",
+        "DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence."
+      ]
+    }
+  ]
+}
