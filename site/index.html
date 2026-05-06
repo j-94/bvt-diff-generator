@@ -106,6 +106,45 @@
       <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>
 
       <div class='stage-wrap' style='margin-bottom:14px'>
+        <section class='stage' aria-label='No rebuild engine demo'>
+          <article class='lane fast' style='min-height:430px'>
+            <div class='lane-head'><h2>No-Rebuild Engine Path</h2><span class='tag'>existing binary -> receipt</span></div>
+            <div class='meters'>
+              <div class='meter'><span>cargo rebuilds</span><strong>0</strong></div>
+              <div class='meter'><span>engine calls</span><strong>1</strong></div>
+              <div class='meter'><span>command</span><strong>run-dsl</strong></div>
+              <div class='meter'><span>output</span><strong>receipt</strong></div>
+            </div>
+            <div class='workspace'>
+              <div class='canvas'>
+                <div class='preview dark' style='min-height:310px'>
+                  <div class='nav'><b>Steady-State Loop</b><small>no cargo run</small></div>
+                  <div class='hero-ui'>
+                    <h3>Use the built engine once.</h3>
+                    <p>The agent emits one DSL packet. The existing binary compiles, diffs, applies, and writes receipts in a single local transition.</p>
+                    <div class='cta-row'><span class='cta fill'>Run packet</span><span class='cta'>Open run receipt</span></div>
+                  </div>
+                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
+                </div>
+              </div>
+              <aside class='rail'><h3>One Call</h3><div class='op'><div class='op-label'><span>target/debug/bvt-diff-generator</span><span>ready</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>run-dsl packet.json</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>write plan/diff/receipts</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
+            </div>
+          </article>
+          <article class='lane' style='min-height:430px'>
+            <div class='lane-head'><h2>Actual Command</h2><span class='tag'>this section used it</span></div>
+            <div class='diff' style='grid-template-columns:122px 1fr'>
+              <div class='line-no'>binary</div><div>target/debug/bvt-diff-generator</div>
+              <div class='line-no'>tool</div><div class='plus'>+ run-dsl</div>
+              <div class='line-no'>packet</div><div>runs/no-rebuild-demo-section-dsl.json</div>
+              <div class='line-no'>run dir</div><div>runs/no-rebuild-demo-section-run</div>
+              <div class='line-no'>artifacts</div><div class='plus'>+ plan.json, diff.patch, generate/apply/run receipts</div>
+            </div>
+            <div class='claim' style='margin:14px'>This is the expected steady-state path: do not rebuild the engine for content changes. Rebuild only when the Rust engine changes; otherwise invoke the existing binary once and inspect the run receipt.</div>
+          </article>
+        </section>
+      </div>
+
+      <div class='stage-wrap' style='margin-bottom:14px'>
         <section class='stage' aria-label='Git tree and site lineage graph'>
           <article class='lane fast' style='min-height:470px'>
             <div class='lane-head'><h2>Git Tree / Site Lineage</h2><span class='tag'>commits -> deployed surfaces</span></div>

@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/readme-no-rebuild-live-url-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "point README at the live no-rebuild engine demo site",
+  "diff": "runs/readme-no-rebuild-live-url-run/diff.patch",
+  "dsl_plan": "runs/readme-no-rebuild-live-url-dsl.json",
+  "file_count": 1,
+  "generate_receipt": "runs/readme-no-rebuild-live-url-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 1,
+  "plan": "runs/readme-no-rebuild-live-url-run/plan.json",
+  "state": "dsl_packet_loaded"
+}

@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/no-rebuild-demo-section-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "show the no-rebuild one-shot engine path as a live site demo section",
+  "diff": "runs/no-rebuild-demo-section-run/diff.patch",
+  "dsl_plan": "runs/no-rebuild-demo-section-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/no-rebuild-demo-section-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 2,
+  "plan": "runs/no-rebuild-demo-section-run/plan.json",
+  "state": "dsl_packet_loaded"
+}
