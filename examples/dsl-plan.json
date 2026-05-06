@@ -1,0 +1,18 @@
+{
+  "intent": "demo DSL lowering to typed edit ops",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator/examples/workspace",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "example.txt",
+      "needle": "beta",
+      "line": "BETA"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "example.txt",
+      "needle": "gamma",
+      "lines": ["delta"]
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BVT Diff Generator</title>
+    <meta
+      name="description"
+      content="A high-throughput delta compiler: ICL and DSL plans become typed edit ops, candidate diffs, and BVT-style receipts."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #141612;
+        --muted: #5d6658;
+        --line: #d8ded1;
+        --paper: #fbfcf7;
+        --field: #eef4e6;
+        --accent: #0f7b63;
+        --accent-2: #3156a3;
+        --code: #1f2a24;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        min-height: 100vh;
+      }
+
+      .hero {
+        min-height: 92vh;
+        display: grid;
+        align-items: center;
+        padding: 48px 24px 24px;
+        background:
+          linear-gradient(rgba(251, 252, 247, 0.7), rgba(251, 252, 247, 0.94)),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='900' viewBox='0 0 1400 900'%3E%3Crect width='1400' height='900' fill='%23eef4e6'/%3E%3Cg stroke='%2396a78e' stroke-width='1' opacity='.45'%3E%3Cpath d='M0 120h1400M0 240h1400M0 360h1400M0 480h1400M0 600h1400M0 720h1400M0 840h1400M180 0v900M360 0v900M540 0v900M720 0v900M900 0v900M1080 0v900M1260 0v900'/%3E%3C/g%3E%3Cg font-family='monospace' font-size='28' fill='%23141612' opacity='.22'%3E%3Ctext x='105' y='160'%3ES + Delta + C -%3E S'%3C/text%3E%3Ctext x='720' y='330'%3Ereplace_line_containing%3C/text%3E%3Ctext x='240' y='560'%3E1.4M ops/sec%3C/text%3E%3Ctext x='820' y='690'%3Ereceipt-backed diffs%3C/text%3E%3C/g%3E%3C/svg%3E");
+        background-size: cover;
+      }
+
+      .wrap {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+      }
+
+      h1 {
+        max-width: 880px;
+        margin: 0;
+        font-size: clamp(44px, 8vw, 92px);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-size: 21px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 34px;
+      }
+
+      a.button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 15px;
+        border: 1px solid var(--ink);
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 700;
+        background: rgba(251, 252, 247, 0.75);
+      }
+
+      a.button.primary {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: white;
+      }
+
+      .signal {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: 52px;
+        border: 1px solid var(--line);
+        background: var(--line);
+      }
+
+      .metric {
+        min-height: 116px;
+        padding: 18px;
+        background: rgba(251, 252, 247, 0.92);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 24px;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      section {
+        padding: 72px 24px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 36px;
+        align-items: start;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.1;
+      }
+
+      .copy {
+        color: var(--muted);
+        margin: 14px 0 0;
+        font-size: 17px;
+      }
+
+      pre {
+        overflow: auto;
+        margin: 0;
+        padding: 20px;
+        background: var(--code);
+        color: #f5f8ef;
+        border: 1px solid #0e1612;
+        font-size: 14px;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        margin-top: 28px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+
+      .step {
+        background: white;
+        padding: 18px;
+        min-height: 128px;
+      }
+
+      .step b {
+        color: var(--accent-2);
+      }
+
+      footer {
+        padding: 30px 24px 42px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 840px) {
+        .signal,
+        .grid,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 84px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="hero">
+        <div class="wrap">
+          <h1>BVT Diff Generator</h1>
+          <p class="lead">
+            A high-throughput delta compiler: ICL and DSL plans become typed edit
+            ops, candidate diffs, and BVT-style receipts.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/j-94/bvt-diff-generator">GitHub</a>
+            <a class="button" href="#dsl">DSL Contract</a>
+          </div>
+          <div class="signal" aria-label="Project metrics">
+            <div class="metric">
+              <strong>1.4M</strong>
+              <span>synthetic ops/sec in release benchmark</span>
+            </div>
+            <div class="metric">
+              <strong>DSL</strong>
+              <span>LM emits semantic actions, not raw patch text</span>
+            </div>
+            <div class="metric">
+              <strong>Rust</strong>
+              <span>local deterministic op-to-diff compiler</span>
+            </div>
+            <div class="metric">
+              <strong>BVT</strong>
+              <span>receipts preserve transition evidence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="dsl">
+        <div class="wrap grid">
+          <div>
+            <h2>Use the LM at the right layer.</h2>
+            <p class="copy">
+              The model chooses the transition and emits a compact DSL plan. The
+              engine handles mechanical line targeting, diff generation, checks,
+              and receipts.
+            </p>
+          </div>
+          <pre><code>{
+  "intent": "make the example explicit",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "example.txt",
+      "needle": "beta",
+      "line": "BETA"
+    }
+  ]
+}</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>Control Loop</h2>
+          <div class="flow">
+            <div class="step"><b>S</b><br />files, tests, memory, claim boundary</div>
+            <div class="step"><b>Delta</b><br />high-level DSL actions</div>
+            <div class="step"><b>C</b><br />path safety, anchors, rollback, gates</div>
+            <div class="step"><b>S'</b><br />candidate diff or rejected transition</div>
+            <div class="step"><b>Receipt</b><br />op count, file count, elapsed time</div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="wrap">BVT Diff Generator: fast proposal, explicit admission.</div>
+    </footer>
+  </body>
+</html>

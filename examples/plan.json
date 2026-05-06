@@ -1,0 +1,19 @@
+{
+  "intent": "demo typed ops to unified diff",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator/examples/workspace",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "example.txt",
+      "start": 2,
+      "end": 2,
+      "lines": ["BETA"]
+    },
+    {
+      "kind": "insert",
+      "path": "example.txt",
+      "at": 4,
+      "lines": ["delta"]
+    }
+  ]
+}
