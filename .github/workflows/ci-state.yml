@@ -1,0 +1,97 @@
+name: CI state
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      transition_packet:
+        description: "Optional DSL packet to run with the built engine"
+        required: false
+        default: ""
+      run_dir:
+        description: "State directory for optional transition packet"
+        required: false
+        default: "ci-state/transition-run"
+
+permissions:
+  contents: read
+
+jobs:
+  state:
+    runs-on: ubuntu-latest
+    env:
+      TRANSITION_PACKET: ${{ inputs.transition_packet || '' }}
+      TRANSITION_RUN_DIR: ${{ inputs.run_dir || 'ci-state/transition-run' }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-
+
+      - name: Build engine once
+        run: cargo build --release --locked
+
+      - name: Verify engine
+        run: |
+          set -euo pipefail
+          mkdir -p ci-state
+          cargo fmt --check
+          cargo test --locked | tee ci-state/cargo-test.txt
+          node --check <(perl -0777 -ne 'print $1 if m{<script>(.*)</script>}s' site/index.html)
+          target/release/bvt-diff-generator bench --iterations 10000 --ops 32 | tee ci-state/bench.json
+
+      - name: Run optional transition packet
+        if: ${{ env.TRANSITION_PACKET != '' }}
+        run: |
+          set -euo pipefail
+          target/release/bvt-diff-generator run-dsl "$TRANSITION_PACKET" --run-dir "$TRANSITION_RUN_DIR" | tee ci-state/transition-run-receipt.json
+
+      - name: Save state manifest
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, subprocess, time
+          state = {
+              "schema": "bvt-ci-state-v1",
+              "sha": os.environ["GITHUB_SHA"],
+              "ref": os.environ["GITHUB_REF_NAME"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "created_at_unix": int(time.time()),
+              "engine": "target/release/bvt-diff-generator",
+              "site_dir": "site",
+              "bench_receipt": "ci-state/bench.json",
+              "test_log": "ci-state/cargo-test.txt",
+              "transition_packet": os.environ.get("TRANSITION_PACKET") or None,
+              "transition_run_dir": os.environ.get("TRANSITION_RUN_DIR") if os.environ.get("TRANSITION_PACKET") else None,
+              "git_status": subprocess.check_output(["git", "status", "--short"], text=True).strip(),
+          }
+          with open("ci-state/manifest.json", "w") as f:
+              json.dump(state, f, indent=2)
+              f.write("\n")
+          PY
+
+      - name: Deploy site to Vercel
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && env.VERCEL_TOKEN != '' }}
+        run: |
+          npx vercel@latest deploy site -y --token "$VERCEL_TOKEN" | tee ci-state/vercel-deploy.txt
+
+      - name: Upload saved state
+        uses: actions/upload-artifact@v4
+        with:
+          name: bvt-ci-state-${{ github.sha }}
+          path: |
+            ci-state
+            site
+          retention-days: 30

@@ -88,6 +88,18 @@ bvt-diff-generator run-dsl examples/dsl-plan.json --run-dir runs/example-run
 bvt-diff-generator bench --iterations 10000 --ops 32
 ```
 
+## CI State Saving
+
+GitHub Actions now owns the repetitive loop. On push or PR, `.github/workflows/ci-state.yml` builds the engine once, runs tests, checks site JavaScript, records a benchmark receipt, and uploads a `bvt-ci-state-<sha>` artifact containing `ci-state/` plus the rendered `site/`.
+
+For a high-level transition, run the workflow manually with a DSL packet path. CI will call:
+
+```bash
+target/release/bvt-diff-generator run-dsl <packet> --run-dir ci-state/transition-run
+```
+
+That saves `plan.json`, `diff.patch`, generate/apply receipts, and a run receipt as CI state. If `VERCEL_TOKEN` is configured in repository secrets, pushes to `main` deploy the site from CI instead of requiring a local deploy command.
+
 ## ICL + DSL Orchestration
 
 The LM should spend its intelligence on choosing the transition, not manually counting line numbers.
