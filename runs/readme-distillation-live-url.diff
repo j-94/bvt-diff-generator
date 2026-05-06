@@ -1,0 +1,17 @@
+--- a/README.md
++++ b/README.md
+ 
+ Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
+ 
+-Live site: https://site-62873adm9-jasedgws-projects.vercel.app
++Live site: https://site-mab2nnwd1-jasedgws-projects.vercel.app
+ 
+ Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
+ 
+ UI factory claim boundary: this throughput can create many candidate UI diffs quickly, but admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.
+ 
++Killer feature: Distillation Gate compresses many generated UI diffs into one small admitted spec with rollback attached.
++
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+ 
+ ```text

@@ -138,6 +138,48 @@
       </div>
 
       <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. UI/sec is a candidate-generation estimate, not an admitted-quality claim; rendered checks and BVT gates still decide what ships.<span class='ticker'></span></div>
+
+      <div class='stage-wrap' style='margin-top:14px'>
+        <section class='stage' aria-label='Distillation gate feature'>
+          <article class='lane fast' style='min-height:420px'>
+            <div class='lane-head'><h2>Killer Feature: Distillation Gate</h2><span class='tag'>many diffs -> one spec</span></div>
+            <div class='meters'>
+              <div class='meter'><span>candidate diffs</span><strong id='distCandidates'>0</strong></div>
+              <div class='meter'><span>kept signals</span><strong id='distSignals'>0</strong></div>
+              <div class='meter'><span>admitted spec</span><strong id='distSpec'>0B</strong></div>
+              <div class='meter'><span>rollback</span><strong>attached</strong></div>
+            </div>
+            <div class='workspace'>
+              <div class='canvas'>
+                <div class='preview dark' style='min-height:300px'>
+                  <div class='nav'><b>Distilled UI Packet</b><small>live compression</small></div>
+                  <div class='hero-ui'>
+                    <h3 id='distTitle'>Collecting variants</h3>
+                    <p id='distCopy'>The engine generates many UI diffs, extracts repeated wins, rejects noisy patches, and carries one small spec forward.</p>
+                    <div class='cta-row'><span class='cta fill'>Admit spec</span><span class='cta'>Rollback ready</span></div>
+                  </div>
+                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
+                </div>
+              </div>
+              <aside class='rail'><h3>Compression</h3><div id='distOps'></div></aside>
+            </div>
+          </article>
+          <article class='lane' style='min-height:420px'>
+            <div class='lane-head'><h2>Why It Matters</h2><span class='tag'>not just speed</span></div>
+            <div class='canvas' style='border-right:0'>
+              <div class='preview warm' style='min-height:330px'>
+                <div class='nav'><b>One Surface</b><small>S + Delta + C</small></div>
+                <div class='hero-ui'>
+                  <h3>Codex speaks once.</h3>
+                  <p>The high-level agent asks for a product outcome. The proxy explores UI diffs at machine speed, then returns the smallest useful transition with receipts.</p>
+                  <div class='cta-row'><span class='cta fill'>small spec</span><span class='cta'>many candidates</span><span class='cta'>bounded claim</span></div>
+                </div>
+                <div class='variant-grid' id='distVariants'></div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
     </main>
 
     <script>
@@ -209,6 +251,32 @@
       }
       render();
       setInterval(render, 760);
+      const distOps = document.getElementById('distOps');
+      const distVariants = document.getElementById('distVariants');
+      const distCandidates = document.getElementById('distCandidates');
+      const distSignals = document.getElementById('distSignals');
+      const distSpec = document.getElementById('distSpec');
+      const distTitle = document.getElementById('distTitle');
+      const distSteps = ['sample variants', 'cluster repeats', 'drop noisy diffs', 'extract spec', 'attach rollback', 'admit packet'];
+      let distTick = 0;
+      function renderDistillation() {
+        distTick = (distTick + 1) % 12;
+        distOps.innerHTML = '';
+        distSteps.forEach((step, idx) => distOps.appendChild(opNode(step, idx <= distTick / 2 ? 100 : idx === Math.ceil(distTick / 2) ? 55 : 0)));
+        distVariants.innerHTML = '';
+        for (let i = 0; i < 8; i++) {
+          const v = document.createElement('div');
+          v.className = 'variant' + (i < Math.max(2, distTick) ? ' live' : '');
+          v.innerHTML = '<div class="variant-line"></div><div class="variant-line" style="width:60%"></div><div class="variant-blocks"><div class="variant-block"></div><div class="variant-block"></div></div>';
+          distVariants.appendChild(v);
+        }
+        distCandidates.textContent = distTick < 8 ? (distTick * 620).toLocaleString() : '5k+';
+        distSignals.textContent = Math.min(42, distTick * 4);
+        distSpec.textContent = distTick < 8 ? (900 - distTick * 70) + 'B' : '312B';
+        distTitle.textContent = distTick < 8 ? 'Distilling UI variants' : 'One admitted spec';
+      }
+      renderDistillation();
+      setInterval(renderDistillation, 640);
     </script>
   </body>
 </html>

@@ -1,0 +1,24 @@
+{
+  "intent": "update README with distillation gate deployment URL and feature note",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 5,
+      "end": 5,
+      "lines": [
+        "Live site: https://site-mab2nnwd1-jasedgws-projects.vercel.app"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "README.md",
+      "at": 10,
+      "lines": [
+        "",
+        "Killer feature: Distillation Gate compresses many generated UI diffs into one small admitted spec with rollback attached."
+      ]
+    }
+  ]
+}
