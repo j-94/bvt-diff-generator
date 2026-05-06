@@ -1,0 +1,15 @@
+{
+  "intent": "point README at the fixed DOM metrics demo site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 5,
+      "end": 5,
+      "lines": [
+        "Live site: https://site-pv0dissu6-jasedgws-projects.vercel.app"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/fix-no-rebuild-dom-metrics-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "replace the confusing no-rebuild CTA panel with real receipt and DOM metrics",
+  "diff": "runs/fix-no-rebuild-dom-metrics-run/diff.patch",
+  "dsl_plan": "runs/fix-no-rebuild-dom-metrics-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/fix-no-rebuild-dom-metrics-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 11,
+  "plan": "runs/fix-no-rebuild-dom-metrics-run/plan.json",
+  "state": "dsl_packet_loaded"
+}
