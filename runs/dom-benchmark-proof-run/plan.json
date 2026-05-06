@@ -1,0 +1,153 @@
+{
+  "intent": "make DOM ops per second auditable instead of theatrical",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 426,
+      "end": 426,
+      "lines": [
+        "              <div class='meter'><span>elapsed ms</span><strong id='copyElapsedMs'>0</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 441,
+      "end": 441,
+      "lines": [
+        "              <aside class='rail'><h3>Benchmark Receipt</h3><div id='copyOpsRail'></div></aside>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 457,
+      "end": 457,
+      "lines": [
+        "            <div class='claim' style='margin:14px'>Benchmark receipt: each sample runs 240 loops of explicit DOM API calls, counts the calls, measures elapsed time with performance.now(), then renders ops/sec = counted calls / elapsed seconds. This proves browser mutation throughput only; it does not prove visual quality, legal permission, or conversion lift.</div>"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 686,
+      "lines": [
+        "      const copyElapsedMs = document.getElementById('copyElapsedMs');"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 688,
+      "lines": [
+        "      const copyLoops = 240;"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 660,
+      "end": 660,
+      "lines": [
+        "        if (packetOp.op === 'setText') { node.textContent = packetOp.value; return 1; }"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 662,
+      "end": 662,
+      "lines": [
+        "        if (packetOp.op === 'addClass') { node.classList.add(packetOp.value); return 1; }"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 663,
+      "lines": [
+        "        return 0;"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 709,
+      "end": 709,
+      "lines": [
+        "        for (let i = 0; i < copyLoops; i++) {"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 710,
+      "end": 710,
+      "lines": [
+        "          copyPlan.forEach(op => { opsDone += applyCopyOp(op); });"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 665,
+      "lines": [
+        "          opsDone += 1;"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 714,
+      "lines": [
+        "          opsDone += 1;"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 714,
+      "end": 714,
+      "lines": [
+        "          document.querySelector('[data-copy=\"tiles\"]').replaceChildren(tile, tile.cloneNode(true), tile.cloneNode(true));"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 715,
+      "end": 715,
+      "lines": [
+        "          opsDone += 3;"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 720,
+      "lines": [
+        "        if (copyElapsedMs) copyElapsedMs.textContent = elapsed.toFixed(2);"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 721,
+      "end": 721,
+      "lines": [
+        "        ['loops: ' + copyLoops, 'counted DOM calls: ' + opsDone.toLocaleString(), 'elapsed ms: ' + elapsed.toFixed(2), 'formula: ops / seconds', 'ops/sec: ' + measuredCopyOps.toLocaleString(), 'boundary: microbench only'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "README.md",
+      "at": 28,
+      "lines": [
+        "",
+        "DOM benchmark proof: the live page now shows counted DOM calls, elapsed ms, loop count, and the ops/sec formula so the throughput number is auditable."
+      ]
+    }
+  ]
+}

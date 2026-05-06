@@ -1,0 +1,86 @@
+--- a/README.md
++++ b/README.md
+ 
+ High-level surface: the live site now includes a chat-style renderer that switches system views from in-browser state instead of writing files or rebuilding per question.
+ 
++DOM benchmark proof: the live page now shows counted DOM calls, elapsed ms, loop count, and the ops/sec formula so the throughput number is auditable.
++
+ Git/site lineage: the live page renders the mainline commit tree as an ICR-style graph from `1301e67` core engine through `f3e83bd` agent tool runtime, with Vercel preview leaves for each product surface.
+ 
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+--- a/site/index.html
++++ b/site/index.html
+             <div class='meters'>
+               <div class='meter'><span>measured DOM ops/sec</span><strong id='copyOpsPerSec'>0</strong></div>
+               <div class='meter'><span>ops applied</span><strong id='copyOpsDone'>0</strong></div>
+-              <div class='meter'><span>copy mode</span><strong>structure</strong></div>
++              <div class='meter'><span>elapsed ms</span><strong id='copyElapsedMs'>0</strong></div>
+               <div class='meter'><span>boundary</span><strong>authorized</strong></div>
+             </div>
+             <div class='workspace'>
+                   <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
+                 </div>
+               </div>
+-              <aside class='rail'><h3>Copy Plan</h3><div id='copyOpsRail'></div></aside>
++              <aside class='rail'><h3>Benchmark Receipt</h3><div id='copyOpsRail'></div></aside>
+             </div>
+           </article>
+           <article class='lane' style='min-height:470px'>
+                 <div class='ui-grid' data-copy='tiles'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
+               </div>
+             </div>
+-            <div class='claim' style='margin:14px'>Realer path: an agent inspects an owned or authorized page, distills layout and offer structure, then issues typed DOM ops to recreate a variant. Do not copy protected branding, private content, or third-party assets without permission.</div>
++            <div class='claim' style='margin:14px'>Benchmark receipt: each sample runs 240 loops of explicit DOM API calls, counts the calls, measures elapsed time with performance.now(), then renders ops/sec = counted calls / elapsed seconds. This proves browser mutation throughput only; it does not prove visual quality, legal permission, or conversion lift.</div>
+           </article>
+         </section>
+       </div>
+       function applyDomOp(packetOp) {
+         const node = document.querySelector(packetOp.selector);
+         if (!node) return;
+-        if (packetOp.op === 'setText') node.textContent = packetOp.value;
++        if (packetOp.op === 'setText') { node.textContent = packetOp.value; return 1; }
+         if (packetOp.op === 'setAttr') node.setAttribute(packetOp.name, packetOp.value);
+-        if (packetOp.op === 'addClass') node.classList.add(packetOp.value);
++        if (packetOp.op === 'addClass') { node.classList.add(packetOp.value); return 1; }
++        return 0;
+         if (packetOp.op === 'appendTile') {
+           const tile = document.createElement('div');
++          opsDone += 1;
+           tile.className = 'tile';
+           tile.textContent = packetOp.value;
+           node.appendChild(tile);
+       const copyOpsPerSec = document.getElementById('copyOpsPerSec');
+       const topDomOpsPerSec = document.getElementById('topDomOpsPerSec');
+       const copyOpsDone = document.getElementById('copyOpsDone');
++      const copyElapsedMs = document.getElementById('copyElapsedMs');
+       const copyTarget = document.getElementById('copyTarget');
+       const copySnapshot = copyTarget ? copyTarget.cloneNode(true) : null;
++      const copyLoops = 240;
+       const copyPlan = [
+         { op: 'setText', selector: '[data-copy="brand"]', value: 'FounderCheckout' },
+         { op: 'setText', selector: '[data-copy="status"]', value: 'structure copied' },
+         copyTarget.innerHTML = copySnapshot.innerHTML;
+         const start = performance.now();
+         let opsDone = 0;
+-        for (let i = 0; i < 240; i++) {
+-          copyPlan.forEach(op => { applyCopyOp(op); opsDone += 1; });
++        for (let i = 0; i < copyLoops; i++) {
++          copyPlan.forEach(op => { opsDone += applyCopyOp(op); });
+           const tile = document.createElement('div');
+           tile.className = 'tile';
+           tile.textContent = 'proof ' + (i % 9);
++          opsDone += 1;
+           document.querySelector('[data-copy="tiles"]').replaceChildren(tile, tile.cloneNode(true), tile.cloneNode(true));
+-          opsDone += 4;
++          opsDone += 3;
+         }
+         const elapsed = Math.max(.001, performance.now() - start);
+         const measuredCopyOps = Math.round(opsDone / (elapsed / 1000)); copyOpsPerSec.textContent = measuredCopyOps.toLocaleString(); if (topDomOpsPerSec) topDomOpsPerSec.textContent = measuredCopyOps.toLocaleString();
+         copyOpsDone.textContent = opsDone.toLocaleString();
++        if (copyElapsedMs) copyElapsedMs.textContent = elapsed.toFixed(2);
+         copyOpsRail.innerHTML = '';
+-        ['inspect DOM', 'distill structure', 'setText nodes', 'swap class', 'replace proof tiles', 'emit receipt'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));
++        ['loops: ' + copyLoops, 'counted DOM calls: ' + opsDone.toLocaleString(), 'elapsed ms: ' + elapsed.toFixed(2), 'formula: ops / seconds', 'ops/sec: ' + measuredCopyOps.toLocaleString(), 'boundary: microbench only'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));
+       }
+       benchmarkDomCopy();
+       setInterval(benchmarkDomCopy, 1800);

@@ -1,0 +1,10 @@
+--- a/README.md
++++ b/README.md
+ 
+ Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
+ 
+-Live site: https://site-pv0dissu6-jasedgws-projects.vercel.app
++Live site: https://site-5015y95fx-jasedgws-projects.vercel.app
+ 
+ Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
+ 

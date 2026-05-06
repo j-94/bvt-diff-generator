@@ -1,0 +1,15 @@
+{
+  "intent": "point README at the live auditable DOM benchmark proof site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 5,
+      "end": 5,
+      "lines": [
+        "Live site: https://site-7mi6eei4c-jasedgws-projects.vercel.app"
+      ]
+    }
+  ]
+}

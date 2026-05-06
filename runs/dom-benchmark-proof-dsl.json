@@ -1,0 +1,123 @@
+{
+  "intent": "make DOM ops per second auditable instead of theatrical",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<div class='meter'><span>copy mode</span>",
+      "line": "              <div class='meter'><span>elapsed ms</span><strong id='copyElapsedMs'>0</strong></div>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "<aside class='rail'><h3>Copy Plan</h3>",
+      "line": "              <aside class='rail'><h3>Benchmark Receipt</h3><div id='copyOpsRail'></div></aside>"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "Realer path: an agent inspects",
+      "line": "            <div class='claim' style='margin:14px'>Benchmark receipt: each sample runs 240 loops of explicit DOM API calls, counts the calls, measures elapsed time with performance.now(), then renders ops/sec = counted calls / elapsed seconds. This proves browser mutation throughput only; it does not prove visual quality, legal permission, or conversion lift.</div>"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "const copyOpsDone = document.getElementById('copyOpsDone');",
+      "lines": [
+        "      const copyElapsedMs = document.getElementById('copyElapsedMs');"
+      ]
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "const copySnapshot = copyTarget ? copyTarget.cloneNode(true) : null;",
+      "lines": [
+        "      const copyLoops = 240;"
+      ]
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "if (packetOp.op === 'setText')",
+      "line": "        if (packetOp.op === 'setText') { node.textContent = packetOp.value; return 1; }"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "if (packetOp.op === 'addClass')",
+      "line": "        if (packetOp.op === 'addClass') { node.classList.add(packetOp.value); return 1; }"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "if (packetOp.op === 'addClass') node.classList.add(packetOp.value);",
+      "lines": [
+        "        return 0;"
+      ]
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "for (let i = 0; i < 240; i++)",
+      "line": "        for (let i = 0; i < copyLoops; i++) {"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "copyPlan.forEach(op => { applyCopyOp(op); opsDone += 1; });",
+      "line": "          copyPlan.forEach(op => { opsDone += applyCopyOp(op); });"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "const tile = document.createElement('div');",
+      "lines": [
+        "          opsDone += 1;"
+      ]
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "tile.textContent = 'proof ' + (i % 9);",
+      "lines": [
+        "          opsDone += 1;"
+      ]
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "document.querySelector('[data-copy=\"tiles\"]').replaceChildren",
+      "line": "          document.querySelector('[data-copy=\"tiles\"]').replaceChildren(tile, tile.cloneNode(true), tile.cloneNode(true));"
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "opsDone += 4;",
+      "line": "          opsDone += 3;"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "site/index.html",
+      "needle": "copyOpsDone.textContent = opsDone.toLocaleString();",
+      "lines": [
+        "        if (copyElapsedMs) copyElapsedMs.textContent = elapsed.toFixed(2);"
+      ]
+    },
+    {
+      "kind": "replace_line_containing",
+      "path": "site/index.html",
+      "needle": "['inspect DOM', 'distill structure'",
+      "line": "        ['loops: ' + copyLoops, 'counted DOM calls: ' + opsDone.toLocaleString(), 'elapsed ms: ' + elapsed.toFixed(2), 'formula: ops / seconds', 'ops/sec: ' + measuredCopyOps.toLocaleString(), 'boundary: microbench only'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "High-level surface:",
+      "lines": [
+        "",
+        "DOM benchmark proof: the live page now shows counted DOM calls, elapsed ms, loop count, and the ops/sec formula so the throughput number is auditable."
+      ]
+    }
+  ]
+}

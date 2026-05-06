@@ -1,0 +1,86 @@
+--- a/README.md
++++ b/README.md
+ 
+ UI correction: the live no-rebuild demo now shows receipt metrics and browser-measured DOM ops/sec instead of a fake CTA panel.
+ 
++High-level surface: the live site now includes a chat-style renderer that switches system views from in-browser state instead of writing files or rebuilding per question.
++
+ Git/site lineage: the live page renders the mainline commit tree as an ICR-style graph from `1301e67` core engine through `f3e83bd` agent tool runtime, with Vercel preview leaves for each product surface.
+ 
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+--- a/site/index.html
++++ b/site/index.html
+       <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>
+ 
+       <div class='stage-wrap' style='margin-bottom:14px'>
++        <section class='stage' aria-label='High level chat surface runtime'>
++          <article class='lane fast' style='min-height:430px'>
++            <div class='lane-head'><h2>High-Level System Chat</h2><span class='tag'>intent -> instant view</span></div>
++            <div class='meters'>
++              <div class='meter'><span>repo writes</span><strong>0/view</strong></div>
++              <div class='meter'><span>rebuilds</span><strong>0/view</strong></div>
++              <div class='meter'><span>renderer</span><strong>browser</strong></div>
++              <div class='meter'><span>source</span><strong>receipts</strong></div>
++            </div>
++            <div class='canvas' style='border-right:0'>
++              <div class='preview dark' style='min-height:310px'>
++                <div class='nav'><b>Chat Surface</b><small>persistent runtime</small></div>
++                <div class='hero-ui'>
++                  <h3 id='surfaceTitle'>Ask for a system view.</h3>
++                  <p id='surfaceCopy'>The browser renders from existing receipts, git lineage, DOM metrics, and run packets. No cargo run. No new file per question. No deploy per thought.</p>
++                  <div class='cta-row'><span class='cta fill' data-view='dom'>DOM throughput</span><span class='cta' data-view='git'>Git lineage</span><span class='cta' data-view='run'>Run receipt</span><span class='cta' data-view='agents'>Agent tools</span></div>
++                </div>
++                <div class='diff' id='surfaceRows' style='grid-template-columns:118px 1fr'></div>
++              </div>
++            </div>
++          </article>
++          <article class='lane' style='min-height:430px'>
++            <div class='lane-head'><h2>Why This Exists</h2><span class='tag'>stop file-per-thought</span></div>
++            <div class='diff' style='grid-template-columns:124px 1fr'>
++              <div class='line-no'>baseline</div><div>chat -> tool call -> file write -> deploy -> inspect</div>
++              <div class='line-no'>runtime</div><div class='plus'>+ chat -> state query -> instant rendered view</div>
++              <div class='line-no'>mutation</div><div>only when admitting a durable transition</div>
++              <div class='line-no'>view</div><div>DOM, git tree, receipts, agents, deploys, metrics</div>
++              <div class='line-no'>target</div><div class='plus'>+ treat repo as memory, browser as control surface</div>
++            </div>
++            <div class='claim' style='margin:14px'>The next real surface is not another static section. It is a persistent chat UI backed by indexed receipts and a renderer that can materialize any system view immediately. Writes happen only for admitted state changes.</div>
++          </article>
++        </section>
++      </div>
++
++      <div class='stage-wrap' style='margin-bottom:14px'>
+         <section class='stage' aria-label='No rebuild engine demo'>
+           <article class='lane fast' style='min-height:430px'>
+             <div class='lane-head'><h2>No-Rebuild Engine Path</h2><span class='tag'>existing binary -> receipt</span></div>
+       }
+       render();
+       setInterval(render, 760);
++      const surfaceTitle = document.getElementById('surfaceTitle');
++      const surfaceCopy = document.getElementById('surfaceCopy');
++      const surfaceRows = document.getElementById('surfaceRows');
++      const surfaceViews = {
++        dom: ['DOM throughput', 'Browser-measured DOM ops/sec streams from the live copy benchmark.', [['source', 'MutationObserver + performance.now'], ['writes', '0 per view'], ['render', 'instant browser state'], ['claim', 'DOM speed is not visual admission']]],
++        git: ['Git lineage', 'Mainline commits and deployed site leaves render from known receipts.', [['head', '905f509'], ['sites', '10 preview leaves'], ['shape', 'ICR graph'], ['writes', '0 per view']]],
++        run: ['Run receipt', 'One DSL transition creates plan, diff, apply receipt, and run receipt.', [['engine', 'target/debug/bvt-diff-generator'], ['command', 'run-dsl'], ['rebuilds', '0'], ['mutation', 'only on admitted transition']]],
++        agents: ['Agent tools', 'The high-level chat routes to typed tool surfaces instead of hand-written patches.', [['planner', 'selects transition'], ['tools', 'research_offer, generate_diff, apply_dom'], ['gate', 'admit_result'], ['memory', 'receipt-backed']]]
++      };
++      function renderSurfaceView(key) {
++        const view = surfaceViews[key] || surfaceViews.dom;
++        surfaceTitle.textContent = view[0];
++        surfaceCopy.textContent = view[1];
++        surfaceRows.innerHTML = '';
++        view[2].forEach(row => {
++          const k = document.createElement('div');
++          k.className = 'line-no';
++          k.textContent = row[0];
++          const v = document.createElement('div');
++          v.className = row[1].includes('0') || row[1].includes('run-dsl') ? 'plus' : '';
++          v.textContent = row[1];
++          surfaceRows.append(k, v);
++        });
++      }
++      document.querySelectorAll('[data-view]').forEach(el => el.addEventListener('click', () => renderSurfaceView(el.dataset.view)));
++      renderSurfaceView('dom');
+       const distOps = document.getElementById('distOps');
+       const distVariants = document.getElementById('distVariants');
+       const distCandidates = document.getElementById('distCandidates');

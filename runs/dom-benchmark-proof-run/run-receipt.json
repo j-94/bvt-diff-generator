@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/dom-benchmark-proof-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "make DOM ops per second auditable instead of theatrical",
+  "diff": "runs/dom-benchmark-proof-run/diff.patch",
+  "dsl_plan": "runs/dom-benchmark-proof-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/dom-benchmark-proof-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 17,
+  "plan": "runs/dom-benchmark-proof-run/plan.json",
+  "state": "dsl_packet_loaded"
+}

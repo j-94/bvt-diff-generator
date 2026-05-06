@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/chat-surface-runtime-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "add a high-level chat surface that instantly renders system views without rebuilds",
+  "diff": "runs/chat-surface-runtime-run/diff.patch",
+  "dsl_plan": "runs/chat-surface-runtime-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/chat-surface-runtime-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 3,
+  "plan": "runs/chat-surface-runtime-run/plan.json",
+  "state": "dsl_packet_loaded"
+}

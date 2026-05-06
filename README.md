@@ -2,7 +2,7 @@
 
 Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
 
-Live site: https://site-pv0dissu6-jasedgws-projects.vercel.app
+Live site: https://site-7mi6eei4c-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
@@ -23,6 +23,10 @@ Agent/tool-call framing: the indie business generator is a workload. Agents choo
 No-rebuild path: content transitions should call the existing binary once, e.g. `target/debug/bvt-diff-generator run-dsl packet.json --run-dir runs/name`, and rebuild only when Rust engine code changes.
 
 UI correction: the live no-rebuild demo now shows receipt metrics and browser-measured DOM ops/sec instead of a fake CTA panel.
+
+High-level surface: the live site now includes a chat-style renderer that switches system views from in-browser state instead of writing files or rebuilding per question.
+
+DOM benchmark proof: the live page now shows counted DOM calls, elapsed ms, loop count, and the ops/sec formula so the throughput number is auditable.
 
 Git/site lineage: the live page renders the mainline commit tree as an ICR-style graph from `1301e67` core engine through `f3e83bd` agent tool runtime, with Vercel preview leaves for each product surface.
 

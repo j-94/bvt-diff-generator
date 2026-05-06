@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/readme-chat-surface-live-url-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "point README at the live high-level chat surface site",
+  "diff": "runs/readme-chat-surface-live-url-run/diff.patch",
+  "dsl_plan": "runs/readme-chat-surface-live-url-dsl.json",
+  "file_count": 1,
+  "generate_receipt": "runs/readme-chat-surface-live-url-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 1,
+  "plan": "runs/readme-chat-surface-live-url-run/plan.json",
+  "state": "dsl_packet_loaded"
+}
