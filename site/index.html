@@ -106,6 +106,55 @@
       <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>
 
       <div class='stage-wrap' style='margin-bottom:14px'>
+        <section class='stage' aria-label='Git tree and site lineage graph'>
+          <article class='lane fast' style='min-height:470px'>
+            <div class='lane-head'><h2>Git Tree / Site Lineage</h2><span class='tag'>commits -> deployed surfaces</span></div>
+            <div class='meters'>
+              <div class='meter'><span>mainline commits</span><strong>12</strong></div>
+              <div class='meter'><span>site surfaces</span><strong>9</strong></div>
+              <div class='meter'><span>current head</span><strong>f3e83bd</strong></div>
+              <div class='meter'><span>shape</span><strong>ICR</strong></div>
+            </div>
+            <div class='canvas' style='border-right:0'>
+              <svg viewBox='0 0 980 350' role='img' aria-label='Git lineage graph from initial generator to agent tool runtime' style='width:100%; min-height:330px; display:block'>
+                <defs>
+                  <marker id='arrow' markerWidth='8' markerHeight='8' refX='7' refY='4' orient='auto'><path d='M0,0 L8,4 L0,8 Z' fill='#35d39a'></path></marker>
+                  <filter id='soft'><feDropShadow dx='0' dy='0' stdDeviation='3' flood-color='#35d39a' flood-opacity='.28'></feDropShadow></filter>
+                </defs>
+                <path d='M70 178 C170 178 190 70 290 70 S410 178 510 178 S650 286 750 286 S830 178 930 178' fill='none' stroke='#263541' stroke-width='4'></path>
+                <path d='M70 178 C170 178 190 70 290 70 S410 178 510 178 S650 286 750 286 S830 178 930 178' fill='none' stroke='#35d39a' stroke-width='2' marker-end='url(#arrow)'></path>
+                <g font-family='ui-monospace, SFMono-Regular, Menlo, monospace' font-size='12' fill='#edf7f1'>
+                  <g transform='translate(70 178)'><circle r='12' fill='#101820' stroke='#35d39a' stroke-width='3' filter='url(#soft)'></circle><text x='-34' y='-22'>1301e67</text><text x='-48' y='34' fill='#9ca9a4'>core engine</text></g>
+                  <g transform='translate(190 112)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>a8431a2</text><text x='-56' y='32' fill='#9ca9a4'>proxy animation</text></g>
+                  <g transform='translate(290 70)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>5dd5e59</text><text x='-50' y='32' fill='#9ca9a4'>patch speed</text></g>
+                  <g transform='translate(390 112)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>c746eed</text><text x='-48' y='32' fill='#9ca9a4'>UI factory</text></g>
+                  <g transform='translate(510 178)'><circle r='12' fill='#101820' stroke='#35d39a' stroke-width='3' filter='url(#soft)'></circle><text x='-34' y='-22'>fc84190</text><text x='-40' y='34' fill='#9ca9a4'>real run</text></g>
+                  <g transform='translate(625 244)'><circle r='10' fill='#101820' stroke='#f4c95d' stroke-width='2'></circle><text x='-34' y='-20'>ffa2ea2</text><text x='-48' y='32' fill='#9ca9a4'>DOM actuator</text></g>
+                  <g transform='translate(750 286)'><circle r='10' fill='#101820' stroke='#f4c95d' stroke-width='2'></circle><text x='-34' y='-20'>55d96ed</text><text x='-62' y='32' fill='#9ca9a4'>business workload</text></g>
+                  <g transform='translate(930 178)'><circle r='14' fill='#06100c' stroke='#35d39a' stroke-width='4' filter='url(#soft)'></circle><text x='-34' y='-24'>f3e83bd</text><text x='-70' y='38' fill='#35d39a'>agent tool runtime</text></g>
+                </g>
+              </svg>
+            </div>
+          </article>
+          <article class='lane' style='min-height:470px'>
+            <div class='lane-head'><h2>Deployed Sites</h2><span class='tag'>preview leaves</span></div>
+            <div class='diff' style='grid-template-columns:102px 1fr'>
+              <div class='line-no'>animation</div><div>site-8lu283661 -> Codex proxy comparison</div>
+              <div class='line-no'>patch speed</div><div>site-m6hx43m6i -> ops/sec to patch artifacts</div>
+              <div class='line-no'>UI factory</div><div>site-62873adm9 -> candidate UI generation</div>
+              <div class='line-no'>distill</div><div>site-mab2nnwd1 -> selected packet</div>
+              <div class='line-no'>product copy</div><div>site-3hp0zhusy -> tighter CTAs</div>
+              <div class='line-no'>real run</div><div>site-5u8szgowq -> DSL -> diff -> apply</div>
+              <div class='line-no'>DOM</div><div>site-ao7xzhxb3 -> direct DOM actuator</div>
+              <div class='line-no'>business</div><div>site-2oxrfd4ed -> indie business workload</div>
+              <div class='line-no'>current</div><div class='plus'>+ site-2wd2gyjl4 -> agent tool runtime</div>
+            </div>
+            <div class='claim' style='margin:14px'>ICR view: each commit is an intervention, each deployed URL is the rendered consequence, and each receipt says which transition was admitted into the public product surface.</div>
+          </article>
+        </section>
+      </div>
+
+      <div class='stage-wrap' style='margin-bottom:14px'>
         <section class='stage' aria-label='Agent tool call runtime'>
           <article class='lane fast' style='min-height:430px'>
             <div class='lane-head'><h2>Agent Tool Call Graph</h2><span class='tag'>planner -> tools -> receipt</span></div>

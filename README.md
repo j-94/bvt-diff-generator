@@ -2,7 +2,7 @@
 
 Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
 
-Live site: https://site-2wd2gyjl4-jasedgws-projects.vercel.app
+Live site: https://site-6u46fs125-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
@@ -17,6 +17,8 @@ DOM actuator: the live site now shows typed browser operations (`setText`, `setA
 Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
 
 Agent/tool-call framing: the indie business generator is a workload. Agents choose transitions; tools execute `research_offer`, `compile_dsl`, `generate_diff`, `apply_dom`, `deploy_site`, and `admit_result` with receipts.
+
+Git/site lineage: the live page renders the mainline commit tree as an ICR-style graph from `1301e67` core engine through `f3e83bd` agent tool runtime, with Vercel preview leaves for each product surface.
 
 This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
 
