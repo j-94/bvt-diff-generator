@@ -49,7 +49,8 @@ jobs:
           mkdir -p ci-state
           cargo fmt --check
           cargo test --locked | tee ci-state/cargo-test.txt
-          node --check <(perl -0777 -ne 'print $1 if m{<script>(.*)</script>}s' site/index.html)
+          perl -0777 -ne 'print $1 if m{<script>(.*)</script>}s' site/index.html > ci-state/site-script.js
+          node --check ci-state/site-script.js
           target/release/bvt-diff-generator bench --iterations 10000 --ops 32 | tee ci-state/bench.json
 
       - name: Run optional transition packet
