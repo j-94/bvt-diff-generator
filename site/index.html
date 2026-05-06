@@ -3,731 +3,139 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>BVT Agent Tool Runtime</title>
-    <meta name='description' content='BVT turns one operator goal into agent tool calls that generate offers, landing pages, DOM variants, deploys, and receipts.'>
+    <title>Codex Live Run</title>
+    <meta name='description' content='A terminal-first live run showing Codex routing one intent through a no-rebuild BVT engine packet.'>
     <style>
-      :root {
-        color-scheme: dark;
-        --bg: #070b10;
-        --panel: #101820;
-        --panel2: #0c1319;
-        --ink: #edf7f1;
-        --muted: #9ca9a4;
-        --line: #263541;
-        --green: #35d39a;
-        --blue: #7da8ff;
-        --red: #ff7a7a;
-        --gold: #f4c95d;
-        --violet: #b79cff;
-      }
+      :root { color-scheme: dark; --bg: #050607; --ink: #f5f7f2; --muted: #9aa39b; --line: #27302c; --green: #4cffac; --blue: #8ab4ff; --amber: #ffd36e; --red: #ff7d7d; }
       * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background: radial-gradient(circle at 18% 0%, rgba(53, 211, 154, .13), transparent 30%), radial-gradient(circle at 86% 12%, rgba(125, 168, 255, .14), transparent 28%), var(--bg);
-        color: var(--ink);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      }
-      main { padding: 28px clamp(16px, 3vw, 42px) 36px; }
-      .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: start; margin-bottom: 18px; }
-      h1 { margin: 0; font-size: clamp(42px, 7vw, 86px); line-height: .9; letter-spacing: 0; }
-      .lead { margin: 14px 0 0; max-width: 980px; color: var(--muted); font-size: 19px; }
-      .links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: end; }
-      .button { color: var(--ink); text-decoration: none; border: 1px solid var(--line); padding: 10px 13px; background: rgba(16, 24, 32, .84); font-weight: 750; }
-      .button.primary { color: #06100c; background: var(--green); border-color: var(--green); }
-      .stage-wrap { overflow-x: auto; padding-bottom: 8px; }
-      .stage { min-width: 1180px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: stretch; }
-      .lane { min-height: 710px; background: rgba(16, 24, 32, .94); border: 1px solid var(--line); display: grid; grid-template-rows: auto auto 1fr auto; overflow: hidden; }
-      .lane.fast { border-color: rgba(53, 211, 154, .62); box-shadow: inset 0 0 0 1px rgba(53, 211, 154, .18); }
-      .lane-head { padding: 14px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-      h2 { margin: 0; font-size: 19px; letter-spacing: 0; }
-      .tag { border: 1px solid var(--line); padding: 5px 8px; color: var(--muted); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
-      .fast .tag { color: var(--green); border-color: rgba(53, 211, 154, .55); }
-      .meters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
-      .meter { min-width: 0; padding: 12px 14px; border-right: 1px solid var(--line); }
-      .meter:last-child { border-right: 0; }
+      body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      main { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+      header { padding: 18px clamp(14px, 3vw, 34px); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: start; gap: 20px; }
+      h1 { margin: 0; font-size: clamp(24px, 5vw, 54px); letter-spacing: 0; line-height: .95; }
+      .sub { margin-top: 8px; color: var(--muted); max-width: 920px; font-size: 14px; line-height: 1.45; }
+      .pill { border: 1px solid var(--line); color: var(--green); padding: 8px 10px; white-space: nowrap; }
+      .grid { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(360px, .75fr); }
+      .terminal, .side { min-height: 0; padding: clamp(14px, 2vw, 24px); }
+      .terminal { border-right: 1px solid var(--line); }
+      .chrome { height: 100%; min-height: 560px; border: 1px solid var(--line); background: #080b0a; display: grid; grid-template-rows: auto 1fr auto; }
+      .bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #313936; }
+      .dot:nth-child(1) { background: var(--red); } .dot:nth-child(2) { background: var(--amber); } .dot:nth-child(3) { background: var(--green); }
+      #term { overflow: auto; padding: 14px; font-size: 13px; line-height: 1.55; }
+      .line { white-space: pre-wrap; color: #dbe5dc; }
+      .prompt { color: var(--green); } .tool { color: var(--blue); } .ok { color: var(--green); } .warn { color: var(--amber); } .dim { color: var(--muted); }
+      .input { border-top: 1px solid var(--line); padding: 12px 14px; display: flex; gap: 10px; color: var(--muted); }
+      .cursor { display: inline-block; width: 8px; height: 16px; background: var(--green); animation: blink 1s steps(2, start) infinite; transform: translateY(3px); }
+      .panel { border: 1px solid var(--line); background: #080b0a; margin-bottom: 14px; }
+      .panel h2 { margin: 0; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--green); }
+      .kv { display: grid; grid-template-columns: 132px 1fr; font-size: 12px; }
+      .kv div { padding: 9px 12px; border-bottom: 1px solid rgba(39,48,44,.72); min-width: 0; overflow-wrap: anywhere; }
+      .k { color: var(--muted); text-align: right; background: rgba(255,255,255,.02); }
+      .v { color: var(--ink); } .v.good { color: var(--green); }
+      .meters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+      .meter { border: 1px solid var(--line); padding: 10px; min-height: 74px; }
       .meter span { display: block; color: var(--muted); font-size: 11px; }
-      .meter strong { display: block; margin-top: 4px; font: 800 20px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
-      .workspace { display: grid; grid-template-columns: 1fr 176px; min-height: 0; }
-      .canvas { padding: 14px; border-right: 1px solid var(--line); background: linear-gradient(180deg, rgba(12, 19, 25, .96), rgba(7, 12, 16, .98)); overflow: hidden; }
-      .preview { min-height: 466px; border: 1px solid var(--line); background: #f7faf7; color: #102016; padding: 18px; display: grid; grid-template-rows: auto 1fr auto; gap: 18px; transform-origin: center; animation: settle .36s ease both; }
-      .preview.dark { background: #121722; color: #edf7f1; }
-      .preview.warm { background: #fff8e6; color: #20160a; }
-      .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-weight: 800; }
-      .nav small { color: currentColor; opacity: .62; font-weight: 650; }
-      .hero-ui { display: grid; align-content: center; gap: 12px; }
-      .hero-ui h3 { margin: 0; font-size: 34px; line-height: 1; letter-spacing: 0; }
-      .hero-ui p { margin: 0; max-width: 360px; opacity: .72; }
-      .cta-row { display: flex; flex-wrap: wrap; gap: 8px; }
-      .cta { display: inline-flex; align-items: center; min-height: 34px; padding: 7px 10px; border: 1px solid currentColor; font-weight: 800; }
-      .cta.fill { background: var(--green); color: #06100c; border-color: var(--green); }
-      .ui-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .tile { min-height: 54px; border: 1px solid rgba(16, 32, 22, .18); background: rgba(53, 211, 154, .16); }
-      .dark .tile { border-color: rgba(237, 247, 241, .16); background: rgba(125, 168, 255, .16); }
-      .warm .tile { background: rgba(244, 201, 93, .32); }
-      .rail { padding: 14px 12px; background: rgba(255, 255, 255, .02); }
-      .rail h3 { margin: 0 0 12px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-      .op { margin-bottom: 12px; }
-      .op-label { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; margin-bottom: 5px; }
-      .bar { height: 8px; background: #17212a; border: 1px solid #21303a; overflow: hidden; }
-      .fill { height: 100%; width: 0%; background: var(--red); transition: width .18s linear; }
-      .fast .fill { background: linear-gradient(90deg, var(--green), var(--blue)); }
-      .variant-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
-      .variant { min-height: 68px; border: 1px solid var(--line); background: rgba(255, 255, 255, .035); padding: 7px; transform: scale(.96); opacity: .45; transition: opacity .2s ease, transform .2s ease, border-color .2s ease; }
-      .variant.live { opacity: 1; transform: scale(1); border-color: rgba(53, 211, 154, .58); }
-      .variant-line { height: 7px; margin-bottom: 6px; background: rgba(237, 247, 241, .26); }
-      .variant-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-      .variant-block { height: 24px; background: rgba(53, 211, 154, .24); }
-      .diff { display: grid; grid-template-columns: 68px 1fr; font: 12px/1.42 ui-monospace, SFMono-Regular, Menlo, monospace; }
-      .diff div { padding: 5px 8px; border-bottom: 1px solid rgba(37, 50, 61, .65); }
-      .line-no { color: #657786; background: rgba(255, 255, 255, .025); text-align: right; }
-      .plus { color: var(--green); }
-      .minus { color: var(--red); }
-      .claim { margin-top: 14px; border: 1px solid rgba(125, 168, 255, .34); background: rgba(125, 168, 255, .06); padding: 12px 14px; color: var(--muted); font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
-      .ticker { display: inline-block; width: 8px; height: 14px; background: var(--green); margin-left: 4px; transform: translateY(2px); animation: blink 1s steps(2, start) infinite; }
-      @keyframes settle { from { opacity: .4; transform: scale(.985) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+      .meter strong { display: block; margin-top: 8px; font-size: 22px; color: var(--green); }
+      .mini { padding: 12px 14px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+      a { color: var(--green); text-decoration: none; }
       @keyframes blink { 50% { opacity: 0; } }
-      @media (max-width: 760px) { main { padding-inline: 14px; } .top { grid-template-columns: 1fr; } .links { justify-content: start; } .stage { min-width: 0; grid-template-columns: 1fr; } .lane { min-height: 0; } .workspace { grid-template-columns: 1fr; } .canvas { border-right: 0; } .preview { min-height: 0; } .hero-ui h3 { font-size: 30px; } .meters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 880px) { header { display: block; } .pill { display: inline-block; margin-top: 12px; } .grid { grid-template-columns: 1fr; } .terminal { border-right: 0; border-bottom: 1px solid var(--line); } .chrome { min-height: 520px; } .kv { grid-template-columns: 108px 1fr; } }
     </style>
   </head>
   <body>
     <main>
-      <header class='top'>
+      <header>
         <div>
-          <h1>BVT Agent Tool Runtime</h1>
-          <p class='lead'>Give one operator goal. BVT routes it through specialized agents and typed tool calls: research offer, generate page diffs, mutate DOM variants, run checks, deploy, and preserve receipts.</p>
+          <h1>Codex Live Run</h1>
+          <div class='sub'>One high-level instruction becomes one no-rebuild BVT packet. This page is intentionally blank and terminal-first: no CTA theatre, no fake product cards, just the run, artifacts, and receipts.</div>
         </div>
-        <nav class='links'>
-          <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
-          <a class='button' href='.'>Live site</a>
-        </nav>
+        <div class='pill'>inspired by wterm / Ghostty terminal surfaces</div>
       </header>
-
-      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>
-
-      <div class='stage-wrap' style='margin-bottom:14px'>
-        <section class='stage' aria-label='High level chat surface runtime'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>High-Level System Chat</h2><span class='tag'>intent -> instant view</span></div>
+      <section class='grid'>
+        <div class='terminal'>
+          <div class='chrome'>
+            <div class='bar'><span class='dot'></span><span class='dot'></span><span class='dot'></span><span>codex@bvt-live-run</span></div>
+            <div id='term' aria-live='polite'></div>
+            <div class='input'><span class='prompt'>$</span><span>render current system as a live Codex run</span><span class='cursor'></span></div>
+          </div>
+        </div>
+        <aside class='side'>
+          <section class='panel'>
+            <h2>Run Receipt</h2>
+            <div class='kv'>
+              <div class='k'>engine</div><div class='v'>target/debug/bvt-diff-generator</div>
+              <div class='k'>command</div><div class='v good'>run-dsl</div>
+              <div class='k'>packet</div><div class='v'>runs/blank-codex-live-run-dsl.json</div>
+              <div class='k'>run dir</div><div class='v'>runs/blank-codex-live-run</div>
+              <div class='k'>rebuilds</div><div class='v good'>0</div>
+              <div class='k'>writes</div><div class='v'>admitted site transition only</div>
+            </div>
+          </section>
+          <section class='panel'>
+            <h2>Live Metrics</h2>
             <div class='meters'>
-              <div class='meter'><span>repo writes</span><strong>0/view</strong></div>
-              <div class='meter'><span>rebuilds</span><strong>0/view</strong></div>
-              <div class='meter'><span>renderer</span><strong>browser</strong></div>
-              <div class='meter'><span>source</span><strong>receipts</strong></div>
+              <div class='meter'><span>terminal frames</span><strong id='frames'>0</strong></div>
+              <div class='meter'><span>DOM mutations</span><strong id='mutations'>0</strong></div>
+              <div class='meter'><span>elapsed ms</span><strong id='elapsed'>0</strong></div>
             </div>
-            <div class='canvas' style='border-right:0'>
-              <div class='preview dark' style='min-height:310px'>
-                <div class='nav'><b>Chat Surface</b><small>persistent runtime</small></div>
-                <div class='hero-ui'>
-                  <h3 id='surfaceTitle'>Ask for a system view.</h3>
-                  <p id='surfaceCopy'>The browser renders from existing receipts, git lineage, DOM metrics, and run packets. No cargo run. No new file per question. No deploy per thought.</p>
-                  <div class='cta-row'><span class='cta fill' data-view='dom'>DOM throughput</span><span class='cta' data-view='git'>Git lineage</span><span class='cta' data-view='run'>Run receipt</span><span class='cta' data-view='agents'>Agent tools</span></div>
-                </div>
-                <div class='diff' id='surfaceRows' style='grid-template-columns:118px 1fr'></div>
-              </div>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>Why This Exists</h2><span class='tag'>stop file-per-thought</span></div>
-            <div class='diff' style='grid-template-columns:124px 1fr'>
-              <div class='line-no'>baseline</div><div>chat -> tool call -> file write -> deploy -> inspect</div>
-              <div class='line-no'>runtime</div><div class='plus'>+ chat -> state query -> instant rendered view</div>
-              <div class='line-no'>mutation</div><div>only when admitting a durable transition</div>
-              <div class='line-no'>view</div><div>DOM, git tree, receipts, agents, deploys, metrics</div>
-              <div class='line-no'>target</div><div class='plus'>+ treat repo as memory, browser as control surface</div>
-            </div>
-            <div class='claim' style='margin:14px'>The next real surface is not another static section. It is a persistent chat UI backed by indexed receipts and a renderer that can materialize any system view immediately. Writes happen only for admitted state changes.</div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap' style='margin-bottom:14px'>
-        <section class='stage' aria-label='No rebuild engine demo'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>No-Rebuild Engine Path</h2><span class='tag'>existing binary -> receipt</span></div>
-            <div class='meters'>
-              <div class='meter'><span>cargo rebuilds</span><strong>0</strong></div>
-              <div class='meter'><span>engine calls</span><strong>1</strong></div>
-              <div class='meter'><span>DOM ops/sec</span><strong id='topDomOpsPerSec'>measuring</strong></div>
-              <div class='meter'><span>run receipt</span><strong>written</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:310px'>
-                  <div class='nav'><b>Actual Run Receipt</b><small>no rebuild</small></div>
-                  <div class='hero-ui'>
-                    <h3>One engine call, no CTA theater.</h3>
-                    <p>This section was generated by the existing binary with `run-dsl`: one DSL packet became a plan, patch, apply receipt, and run receipt without rebuilding Rust.</p>
-                    <div class='diff' style='grid-template-columns:90px 1fr'><div class='line-no'>binary</div><div>target/debug/bvt-diff-generator</div><div class='line-no'>call</div><div class='plus'>+ run-dsl</div><div class='line-no'>result</div><div class='plus'>+ plan + diff + receipts</div></div>
-                  </div>
-                  <div class='claim' style='margin:0'>Actual receipt: op_count=2, file_count=2, cargo rebuilds=0.</div>
-                </div>
-              </div>
-              <aside class='rail'><h3>One Call</h3><div class='op'><div class='op-label'><span>target/debug/bvt-diff-generator</span><span>ready</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>run-dsl packet.json</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>write plan/diff/receipts</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>Actual Command</h2><span class='tag'>this section used it</span></div>
-            <div class='diff' style='grid-template-columns:122px 1fr'>
-              <div class='line-no'>binary</div><div>target/debug/bvt-diff-generator</div>
-              <div class='line-no'>tool</div><div class='plus'>+ run-dsl</div>
-              <div class='line-no'>packet</div><div>runs/no-rebuild-demo-section-dsl.json</div>
-              <div class='line-no'>run dir</div><div>runs/no-rebuild-demo-section-run</div>
-              <div class='line-no'>artifacts</div><div class='plus'>+ plan.json, diff.patch, generate/apply/run receipts</div>
-            </div>
-            <div class='claim' style='margin:14px'>This is the expected steady-state path: do not rebuild the engine for content changes. Rebuild only when the Rust engine changes; otherwise invoke the existing binary once and inspect the run receipt.</div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap' style='margin-bottom:14px'>
-        <section class='stage' aria-label='Git tree and site lineage graph'>
-          <article class='lane fast' style='min-height:470px'>
-            <div class='lane-head'><h2>Git Tree / Site Lineage</h2><span class='tag'>commits -> deployed surfaces</span></div>
-            <div class='meters'>
-              <div class='meter'><span>mainline commits</span><strong>12</strong></div>
-              <div class='meter'><span>site surfaces</span><strong>9</strong></div>
-              <div class='meter'><span>current head</span><strong>f3e83bd</strong></div>
-              <div class='meter'><span>shape</span><strong>ICR</strong></div>
-            </div>
-            <div class='canvas' style='border-right:0'>
-              <svg viewBox='0 0 980 350' role='img' aria-label='Git lineage graph from initial generator to agent tool runtime' style='width:100%; min-height:330px; display:block'>
-                <defs>
-                  <marker id='arrow' markerWidth='8' markerHeight='8' refX='7' refY='4' orient='auto'><path d='M0,0 L8,4 L0,8 Z' fill='#35d39a'></path></marker>
-                  <filter id='soft'><feDropShadow dx='0' dy='0' stdDeviation='3' flood-color='#35d39a' flood-opacity='.28'></feDropShadow></filter>
-                </defs>
-                <path d='M70 178 C170 178 190 70 290 70 S410 178 510 178 S650 286 750 286 S830 178 930 178' fill='none' stroke='#263541' stroke-width='4'></path>
-                <path d='M70 178 C170 178 190 70 290 70 S410 178 510 178 S650 286 750 286 S830 178 930 178' fill='none' stroke='#35d39a' stroke-width='2' marker-end='url(#arrow)'></path>
-                <g font-family='ui-monospace, SFMono-Regular, Menlo, monospace' font-size='12' fill='#edf7f1'>
-                  <g transform='translate(70 178)'><circle r='12' fill='#101820' stroke='#35d39a' stroke-width='3' filter='url(#soft)'></circle><text x='-34' y='-22'>1301e67</text><text x='-48' y='34' fill='#9ca9a4'>core engine</text></g>
-                  <g transform='translate(190 112)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>a8431a2</text><text x='-56' y='32' fill='#9ca9a4'>proxy animation</text></g>
-                  <g transform='translate(290 70)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>5dd5e59</text><text x='-50' y='32' fill='#9ca9a4'>patch speed</text></g>
-                  <g transform='translate(390 112)'><circle r='10' fill='#101820' stroke='#7da8ff' stroke-width='2'></circle><text x='-34' y='-20'>c746eed</text><text x='-48' y='32' fill='#9ca9a4'>UI factory</text></g>
-                  <g transform='translate(510 178)'><circle r='12' fill='#101820' stroke='#35d39a' stroke-width='3' filter='url(#soft)'></circle><text x='-34' y='-22'>fc84190</text><text x='-40' y='34' fill='#9ca9a4'>real run</text></g>
-                  <g transform='translate(625 244)'><circle r='10' fill='#101820' stroke='#f4c95d' stroke-width='2'></circle><text x='-34' y='-20'>ffa2ea2</text><text x='-48' y='32' fill='#9ca9a4'>DOM actuator</text></g>
-                  <g transform='translate(750 286)'><circle r='10' fill='#101820' stroke='#f4c95d' stroke-width='2'></circle><text x='-34' y='-20'>55d96ed</text><text x='-62' y='32' fill='#9ca9a4'>business workload</text></g>
-                  <g transform='translate(930 178)'><circle r='14' fill='#06100c' stroke='#35d39a' stroke-width='4' filter='url(#soft)'></circle><text x='-34' y='-24'>f3e83bd</text><text x='-70' y='38' fill='#35d39a'>agent tool runtime</text></g>
-                </g>
-              </svg>
-            </div>
-          </article>
-          <article class='lane' style='min-height:470px'>
-            <div class='lane-head'><h2>Deployed Sites</h2><span class='tag'>preview leaves</span></div>
-            <div class='diff' style='grid-template-columns:102px 1fr'>
-              <div class='line-no'>animation</div><div>site-8lu283661 -> Codex proxy comparison</div>
-              <div class='line-no'>patch speed</div><div>site-m6hx43m6i -> ops/sec to patch artifacts</div>
-              <div class='line-no'>UI factory</div><div>site-62873adm9 -> candidate UI generation</div>
-              <div class='line-no'>distill</div><div>site-mab2nnwd1 -> selected packet</div>
-              <div class='line-no'>product copy</div><div>site-3hp0zhusy -> tighter CTAs</div>
-              <div class='line-no'>real run</div><div>site-5u8szgowq -> DSL -> diff -> apply</div>
-              <div class='line-no'>DOM</div><div>site-ao7xzhxb3 -> direct DOM actuator</div>
-              <div class='line-no'>business</div><div>site-2oxrfd4ed -> indie business workload</div>
-              <div class='line-no'>current</div><div class='plus'>+ site-2wd2gyjl4 -> agent tool runtime</div>
-            </div>
-            <div class='claim' style='margin:14px'>ICR view: each commit is an intervention, each deployed URL is the rendered consequence, and each receipt says which transition was admitted into the public product surface.</div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap' style='margin-bottom:14px'>
-        <section class='stage' aria-label='Agent tool call runtime'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>Agent Tool Call Graph</h2><span class='tag'>planner -> tools -> receipt</span></div>
-            <div class='meters'>
-              <div class='meter'><span>agents</span><strong>6</strong></div>
-              <div class='meter'><span>tools</span><strong>9</strong></div>
-              <div class='meter'><span>artifacts</span><strong>diffs</strong></div>
-              <div class='meter'><span>memory</span><strong>receipt</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:310px'>
-                  <div class='nav'><b>Agent Run</b><small>one operator goal</small></div>
-                  <div class='hero-ui'>
-                    <h3>Agents call tools, not vibes.</h3>
-                    <p>The planner delegates to offer, page, pricing, DOM, deploy, and gate agents. Each tool call returns an artifact and a receipt.</p>
-                    <div class='cta-row'><span class='cta fill'>Run agent graph</span><span class='cta'>Inspect tool calls</span></div>
-                  </div>
-                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>Agents</h3><div class='op'><div class='op-label'><span>planner</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>offer agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>page agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>gate agent</span><span>receipt</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>Tool Calls</h2><span class='tag'>typed surface</span></div>
-            <div class='diff' style='grid-template-columns:132px 1fr'>
-              <div class='line-no'>research_offer</div><div>customer, pain, promise, price range</div>
-              <div class='line-no'>compile_dsl</div><div class='plus'>+ typed edit ops from agent intent</div>
-              <div class='line-no'>generate_diff</div><div class='plus'>+ unified patch artifact + receipt</div>
-              <div class='line-no'>apply_dom</div><div class='plus'>+ live browser mutation packet</div>
-              <div class='line-no'>deploy_site</div><div>Vercel preview with rollback path</div>
-              <div class='line-no'>admit_result</div><div>BVT gate stores the transition boundary</div>
-            </div>
-            <div class='claim' style='margin:14px'>The business generator becomes a workload on top of the runtime: agents decide what to try; tools produce diffs, DOM mutations, deploys, and receipts; BVT decides what carries forward.</div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap'>
-        <section class='stage' aria-label='UI creation speed comparison'>
-          <article class='lane slow'>
-            <div class='lane-head'><h2>Chat-Only Agent</h2><span class='tag'>one manual loop</span></div>
-            <div class='meters'>
-              <div class='meter'><span>agent outputs</span><strong id='slowCandidates'>1</strong></div>
-              <div class='meter'><span>patch mode</span><strong>manual</strong></div>
-              <div class='meter'><span>tool calls</span><strong id='slowTools'>0</strong></div>
-              <div class='meter'><span>admission</span><strong>pending</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'><div id='slowPreview' class='preview'></div></div>
-              <aside class='rail'><h3>Sequential Work</h3><div id='slowOps'></div></aside>
-            </div>
-            <div class='diff' id='slowDiff'></div>
-          </article>
-
-          <article class='lane fast'>
-            <div class='lane-head'><h2>Tool-Calling Agent Mesh</h2><span class='tag'>goal -> receipts</span></div>
-            <div class='meters'>
-              <div class='meter'><span>tool packets/sec</span><strong id='fastCandidates'>0</strong></div>
-              <div class='meter'><span>patches/sec</span><strong id='fastPatches'>0</strong></div>
-              <div class='meter'><span>diff output/sec</span><strong>32MB</strong></div>
-              <div class='meter'><span>admission</span><strong>receipt</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'><div id='fastPreview' class='preview dark'></div></div>
-              <aside class='rail'><h3>Patch Batches</h3><div id='fastOps'></div></aside>
-            </div>
-            <div class='variant-grid' id='variants'></div>
-          </article>
-        </section>
-      </div>
-
-      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Agent claim: this accelerates deterministic tool-call execution after an agent chooses the transition; customer demand, visual quality, and revenue still require real measurements, rollback, and BVT receipts.<span class='ticker'></span></div>
-
-      <div class='stage-wrap' style='margin-top:14px'>
-        <section class='stage' aria-label='Indie hacker business generator feature'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>Business Workload</h2><span class='tag'>agents generate experiments</span></div>
-            <div class='meters'>
-              <div class='meter'><span>offers</span><strong>120</strong></div>
-              <div class='meter'><span>landing pages</span><strong>40</strong></div>
-              <div class='meter'><span>pricing tests</span><strong>16</strong></div>
-              <div class='meter'><span>ship unit</span><strong>receipt</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:310px'>
-                  <div class='nav'><b>MicroSaaS Sprint</b><small>market experiment</small></div>
-                  <div class='hero-ui'>
-                    <h3>Launch the smallest paid proof.</h3>
-                    <p>Generate offer copy, hero layout, checkout CTA, pricing anchor, and DOM variant as one measurable transition.</p>
-                    <div class='cta-row'><span class='cta fill'>Generate market packet</span><span class='cta'>Rank experiments</span></div>
-                  </div>
-                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>Experiment Stack</h3><div class='op'><div class='op-label'><span>offer angles</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>landing variants</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>pricing anchors</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>receipt deploy</span><span>ready</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>What It Sells</h2><span class='tag'>operator outcome</span></div>
-            <div class='diff' style='grid-template-columns:122px 1fr'>
-              <div class='line-no'>input</div><div>one messy idea, customer, constraint, price range</div>
-              <div class='line-no'>generator</div><div class='plus'>+ offers, page diffs, CTA copy, pricing tables, DOM variants</div>
-              <div class='line-no'>gate</div><div>brand fit, render check, analytics hook, rollback path</div>
-              <div class='line-no'>output</div><div class='plus'>+ deployable market experiment with receipt</div>
-              <div class='line-no'>boundary</div><div>fast experiments do not prove demand; they make demand cheaper to measure.</div>
-            </div>
-            <div class='claim' style='margin:14px'>This is the indie hacker wedge: compress the path from idea to measurable business experiment while keeping evidence, rollback, and claim boundaries attached.</div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap' style='margin-top:14px'>
-        <section class='stage' aria-label='Real end to end generator run'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>Real Run: Intent -> Patch -> Page</h2><span class='tag'>generated by engine</span></div>
-            <div class='meters'>
-              <div class='meter'><span>DSL actions</span><strong>1</strong></div>
-              <div class='meter'><span>files changed</span><strong>1</strong></div>
-              <div class='meter'><span>apply time</span><strong>0.385ms</strong></div>
-              <div class='meter'><span>receipt</span><strong>valid</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:310px'>
-                  <div class='nav'><b>ReceiptDesk</b><small>generated workspace/index.html</small></div>
-                  <div class='hero-ui'>
-                    <h3>Promote one receipt-backed UI change.</h3>
-                    <p>ReceiptDesk turns a product intent into a selected diff, evidence packet, rollback packet, and deployable page.</p>
-                    <div class='cta-row'><span class='cta fill'>Promote diff</span><span class='cta'>Open receipt</span></div>
-                  </div>
-                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>Pipeline</h3><div class='op'><div class='op-label'><span>compile-dsl</span><span>plan</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>generate</span><span>diff + receipt</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>apply</span><span>workspace page</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>Run Artifacts</h2><span class='tag'>local receipt trail</span></div>
-            <div class='diff' style='grid-template-columns:108px 1fr'>
-              <div class='line-no'>intent</div><div>S: placeholder page -> Delta: ReceiptDesk UI</div>
-              <div class='line-no'>plan</div><div class='plus'>+ runs/e2e-ui-run/ui-run-plan.json</div>
-              <div class='line-no'>patch</div><div class='plus'>+ runs/e2e-ui-run/ui-run.diff</div>
-              <div class='line-no'>receipt</div><div class='plus'>+ runs/e2e-ui-run/ui-run-apply-receipt.json</div>
-              <div class='line-no'>result</div><div class='plus'>+ runs/e2e-ui-run/workspace/index.html</div>
-            </div>
-            <div class='claim' style='margin:14px'>This is the honest end-to-end path: a DSL intent packet was compiled into a plan, rendered as a unified patch, then applied into a real workspace with an apply receipt. It is a local generator run, not a claim that visual quality was production-admitted.</div>
-
-      <div class='stage-wrap' style='margin-top:14px'>
-        <section class='stage' aria-label='Direct DOM actuator demo'>
-          <article class='lane fast' style='min-height:430px'>
-            <div class='lane-head'><h2>Direct DOM Actuator</h2><span class='tag'>typed ops -> live nodes</span></div>
-            <div class='meters'>
-              <div class='meter'><span>DOM ops</span><strong id='domOpsCount'>0</strong></div>
-              <div class='meter'><span>mutations</span><strong id='domMutations'>0</strong></div>
-              <div class='meter'><span>surface</span><strong>DOM API</strong></div>
-              <div class='meter'><span>rollback</span><strong>snapshot</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div id='domActuatorTarget' class='preview warm' style='min-height:310px'>
-                  <div class='nav'><b data-slot='brand'>DOMDesk</b><small data-slot='status'>waiting</small></div>
-                  <div class='hero-ui'>
-                    <h3 data-slot='title'>Patch text is not the only actuator.</h3>
-                    <p data-slot='copy'>A typed packet can update live nodes directly, while the diff engine still preserves patch artifacts and receipts.</p>
-                    <div class='cta-row'><span class='cta fill' data-slot='primary'>Apply DOM packet</span><span class='cta' data-slot='secondary'>Capture rollback</span></div>
-                  </div>
-                  <div class='ui-grid' data-slot='tiles'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>DOM Packet</h3><div id='domOpsRail'></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:430px'>
-            <div class='lane-head'><h2>Module Choice</h2><span class='tag'>small surface</span></div>
-            <div class='diff' style='grid-template-columns:108px 1fr'>
-              <div class='line-no'>best fit</div><div class='plus'>+ tiny DOM actuator module</div>
-              <div class='line-no'>ops</div><div>setText, setAttr, addClass, appendTile</div>
-              <div class='line-no'>evidence</div><div>MutationObserver count + rollback snapshot</div>
-              <div class='line-no'>zig</div><div>Zig can emit WASM ops later, but JS must call the browser DOM.</div>
-              <div class='line-no'>boundary</div><div>DOM speed is not visual admission; rendered checks still gate.</div>
-            </div>
-            <div class='claim' style='margin:14px'>The useful split is: BVT generates and receipts the transition; a DOM actuator applies small typed UI mutations in the browser; a later Zig/WASM kernel could compute op batches, but the DOM boundary remains JavaScript imports.</div>
-
-      <div class='stage-wrap' style='margin-top:14px'>
-        <section class='stage' aria-label='Authorized live site DOM copy demo'>
-          <article class='lane fast' style='min-height:470px'>
-            <div class='lane-head'><h2>Authorized Live Site Copy</h2><span class='tag'>inspect -> DOM ops -> receipt</span></div>
-            <div class='meters'>
-              <div class='meter'><span>measured DOM ops/sec</span><strong id='copyOpsPerSec'>0</strong></div>
-              <div class='meter'><span>ops applied</span><strong id='copyOpsDone'>0</strong></div>
-              <div class='meter'><span>elapsed ms</span><strong id='copyElapsedMs'>0</strong></div>
-              <div class='meter'><span>boundary</span><strong>authorized</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:330px'>
-                  <div class='nav'><b>Source: owned live page</b><small>observed structure</small></div>
-                  <div class='hero-ui'>
-                    <h3>Checkout analytics for solo founders.</h3>
-                    <p>Header, offer, proof row, checkout CTA, pricing blocks, and testimonial rhythm are captured as structure, not stolen assets.</p>
-                    <div class='cta-row'><span class='cta fill'>Start trial</span><span class='cta'>View proof</span></div>
-                  </div>
-                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>Benchmark Receipt</h3><div id='copyOpsRail'></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:470px'>
-            <div class='lane-head'><h2>Recreated Target</h2><span class='tag'>live DOM mutations</span></div>
-            <div class='canvas' style='border-right:0'>
-              <div id='copyTarget' class='preview warm' style='min-height:330px'>
-                <div class='nav'><b data-copy='brand'>BlankSite</b><small data-copy='status'>waiting</small></div>
-                <div class='hero-ui'>
-                  <h3 data-copy='title'>Empty landing shell.</h3>
-                  <p data-copy='copy'>The actuator will recreate the structure with typed DOM calls.</p>
-                  <div class='cta-row'><span class='cta fill' data-copy='primary'>Apply copy plan</span><span class='cta' data-copy='secondary'>Open receipt</span></div>
-                </div>
-                <div class='ui-grid' data-copy='tiles'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-              </div>
-            </div>
-            <div class='claim' style='margin:14px'>Benchmark receipt: each sample runs 240 loops of explicit DOM API calls, counts the calls, measures elapsed time with performance.now(), then renders ops/sec = counted calls / elapsed seconds. This proves browser mutation throughput only; it does not prove visual quality, legal permission, or conversion lift.</div>
-          </article>
-        </section>
-      </div>
-          </article>
-        </section>
-      </div>
-          </article>
-        </section>
-      </div>
-
-      <div class='stage-wrap' style='margin-top:14px'>
-        <section class='stage' aria-label='Distillation gate feature'>
-          <article class='lane fast' style='min-height:420px'>
-            <div class='lane-head'><h2>Killer Feature: Distillation Gate</h2><span class='tag'>candidate swarm -> admitted packet</span></div>
-            <div class='meters'>
-              <div class='meter'><span>candidate diffs</span><strong id='distCandidates'>0</strong></div>
-              <div class='meter'><span>kept signals</span><strong id='distSignals'>0</strong></div>
-              <div class='meter'><span>admitted spec</span><strong id='distSpec'>0B</strong></div>
-              <div class='meter'><span>rollback</span><strong>attached</strong></div>
-            </div>
-            <div class='workspace'>
-              <div class='canvas'>
-                <div class='preview dark' style='min-height:300px'>
-                  <div class='nav'><b>Distilled UI Packet</b><small>live compression</small></div>
-                  <div class='hero-ui'>
-                    <h3 id='distTitle'>Collecting variants</h3>
-                    <p id='distCopy'>The engine extracts repeated layout wins, rejects noisy variants, and emits one compact packet: selected diff, evidence, rollback, and receipt.</p>
-                    <div class='cta-row'><span class='cta fill'>Promote selected diff</span><span class='cta'>Open rollback packet</span></div>
-                  </div>
-                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
-                </div>
-              </div>
-              <aside class='rail'><h3>Compression</h3><div id='distOps'></div></aside>
-            </div>
-          </article>
-          <article class='lane' style='min-height:420px'>
-            <div class='lane-head'><h2>One Surface Control</h2><span class='tag'>operator action</span></div>
-            <div class='canvas' style='border-right:0'>
-              <div class='preview warm' style='min-height:330px'>
-                <div class='nav'><b>One Surface</b><small>S + Delta + C</small></div>
-                <div class='hero-ui'>
-                  <h3>Codex speaks once.</h3>
-                  <p>The high-level agent submits one outcome. The proxy explores, ranks, and compresses UI diffs; the operator reviews one selected transition instead of babysitting patch text.</p>
-                  <div class='cta-row'><span class='cta fill'>Submit product intent</span><span class='cta'>Review selected diff</span><span class='cta'>Export receipt</span></div>
-                </div>
-                <div class='variant-grid' id='distVariants'></div>
-              </div>
-            </div>
-          </article>
-        </section>
-      </div>
+            <div class='mini'>Measured in this browser with MutationObserver and performance.now(). It proves this terminal view renders quickly; it does not prove product quality.</div>
+          </section>
+          <section class='panel'>
+            <h2>Artifacts</h2>
+            <div class='kv' id='artifacts'></div>
+          </section>
+        </aside>
+      </section>
     </main>
-
     <script>
-      const themes = [
-        { cls: '', brand: 'OfferLab', title: 'Shape the paid promise', copy: 'Turn a raw idea into niche, pain, outcome, proof, and checkout intent.', cta: 'Generate offers', secondary: 'Set constraints' },
-        { cls: 'dark', brand: 'LaunchLab', title: 'Sweep landing pages', copy: 'Generate and rank hero, CTA, pricing, and proof sections before spending review attention.', cta: 'Run launch sweep', secondary: 'Inspect ranking' },
-        { cls: 'warm', brand: 'RevenueDesk', title: 'Promote the business test', copy: 'Ship only the selected experiment with analytics, rollback, and receipt metadata.', cta: 'Deploy test', secondary: 'Open receipt' }
-      ];
-      const ops = ['operator goal', 'planner agent', 'tool selection', 'typed tool call', 'artifact receipt', 'render check', 'BVT gate'];
-      const diffRows = [[' ', 'S: operator goal'], ['+', 'Tool: research_offer'], ['+', 'Tool: generate_diff'], ['+', 'Tool: apply_dom'], ['+', 'Receipt: admitted transition']];
-      const slowPreview = document.getElementById('slowPreview');
-      const fastPreview = document.getElementById('fastPreview');
-      const slowOps = document.getElementById('slowOps');
-      const fastOps = document.getElementById('fastOps');
-      const slowDiff = document.getElementById('slowDiff');
-      const variants = document.getElementById('variants');
-      const slowTools = document.getElementById('slowTools');
-      const fastPatches = document.getElementById('fastPatches');
-      const fastCandidates = document.getElementById('fastCandidates');
-      let tick = 0;
-      function ui(target, theme) {
-        target.className = 'preview ' + theme.cls;
-        target.innerHTML = '<div class="nav"><b>' + theme.brand + '</b><small>generated UI</small></div><div class="hero-ui"><h3>' + theme.title + '</h3><p>' + theme.copy + '</p><div class="cta-row"><span class="cta fill">' + theme.cta + '</span><span class="cta">' + theme.secondary + '</span></div></div><div class="ui-grid"><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>';
-      }
-      function opNode(name, pct) {
-        const el = document.createElement('div');
-        el.className = 'op';
-        el.innerHTML = '<div class="op-label"><span>' + name + '</span><span>' + pct + '%</span></div><div class="bar"><div class="fill" style="width:' + pct + '%"></div></div>';
-        return el;
-      }
-      function renderDiff(target, count) {
-        target.innerHTML = '';
-        diffRows.slice(0, count).forEach((row, idx) => {
-          const n = document.createElement('div');
-          n.className = 'line-no';
-          n.textContent = String(idx + 1).padStart(2, '0');
-          const body = document.createElement('div');
-          body.className = row[0] === '+' ? 'plus' : '';
-          body.textContent = row[0] + ' ' + row[1];
-          target.append(n, body);
-        });
-      }
-      function renderVariants(active) {
-        variants.innerHTML = '';
-        for (let i = 0; i < 12; i++) {
-          const v = document.createElement('div');
-          v.className = 'variant' + (i <= active ? ' live' : '');
-          v.innerHTML = '<div class="variant-line"></div><div class="variant-line" style="width:70%"></div><div class="variant-blocks"><div class="variant-block"></div><div class="variant-block"></div></div>';
-          variants.appendChild(v);
-        }
-      }
-      function render() {
-        tick = (tick + 1) % 18;
-        const slowStep = Math.min(ops.length, Math.floor(tick / 3) + 1);
-        const fastStep = Math.min(ops.length, tick + 1);
-        ui(slowPreview, themes[Math.min(1, Math.floor(tick / 10))]);
-        ui(fastPreview, themes[tick % themes.length]);
-        slowOps.innerHTML = '';
-        fastOps.innerHTML = '';
-        ops.forEach((op, idx) => {
-          slowOps.appendChild(opNode(op, idx < slowStep ? 100 : idx === slowStep ? 35 : 0));
-          fastOps.appendChild(opNode(op, idx < fastStep ? 100 : 0));
-        });
-        slowTools.textContent = String(Math.max(1, slowStep));
-        fastPatches.textContent = tick < 8 ? (tick * 5600).toLocaleString() : '45k';
-        fastCandidates.textContent = tick < 8 ? (tick * 700).toLocaleString() : '5k+';
-        renderDiff(slowDiff, Math.min(diffRows.length, slowStep));
-        renderVariants(Math.min(11, tick));
-      }
-      render();
-      setInterval(render, 760);
-      const surfaceTitle = document.getElementById('surfaceTitle');
-      const surfaceCopy = document.getElementById('surfaceCopy');
-      const surfaceRows = document.getElementById('surfaceRows');
-      const surfaceViews = {
-        dom: ['DOM throughput', 'Browser-measured DOM ops/sec streams from the live copy benchmark.', [['source', 'MutationObserver + performance.now'], ['writes', '0 per view'], ['render', 'instant browser state'], ['claim', 'DOM speed is not visual admission']]],
-        git: ['Git lineage', 'Mainline commits and deployed site leaves render from known receipts.', [['head', '905f509'], ['sites', '10 preview leaves'], ['shape', 'ICR graph'], ['writes', '0 per view']]],
-        run: ['Run receipt', 'One DSL transition creates plan, diff, apply receipt, and run receipt.', [['engine', 'target/debug/bvt-diff-generator'], ['command', 'run-dsl'], ['rebuilds', '0'], ['mutation', 'only on admitted transition']]],
-        agents: ['Agent tools', 'The high-level chat routes to typed tool surfaces instead of hand-written patches.', [['planner', 'selects transition'], ['tools', 'research_offer, generate_diff, apply_dom'], ['gate', 'admit_result'], ['memory', 'receipt-backed']]]
-      };
-      function renderSurfaceView(key) {
-        const view = surfaceViews[key] || surfaceViews.dom;
-        surfaceTitle.textContent = view[0];
-        surfaceCopy.textContent = view[1];
-        surfaceRows.innerHTML = '';
-        view[2].forEach(row => {
-          const k = document.createElement('div');
-          k.className = 'line-no';
-          k.textContent = row[0];
-          const v = document.createElement('div');
-          v.className = row[1].includes('0') || row[1].includes('run-dsl') ? 'plus' : '';
-          v.textContent = row[1];
-          surfaceRows.append(k, v);
-        });
-      }
-      document.querySelectorAll('[data-view]').forEach(el => el.addEventListener('click', () => renderSurfaceView(el.dataset.view)));
-      renderSurfaceView('dom');
-      const distOps = document.getElementById('distOps');
-      const distVariants = document.getElementById('distVariants');
-      const distCandidates = document.getElementById('distCandidates');
-      const distSignals = document.getElementById('distSignals');
-      const distSpec = document.getElementById('distSpec');
-      const distTitle = document.getElementById('distTitle');
-      const distSteps = ['sample variants', 'cluster repeats', 'drop noisy diffs', 'extract spec', 'attach rollback', 'admit packet'];
-      let distTick = 0;
-      function renderDistillation() {
-        distTick = (distTick + 1) % 12;
-        distOps.innerHTML = '';
-        distSteps.forEach((step, idx) => distOps.appendChild(opNode(step, idx <= distTick / 2 ? 100 : idx === Math.ceil(distTick / 2) ? 55 : 0)));
-        distVariants.innerHTML = '';
-        for (let i = 0; i < 8; i++) {
-          const v = document.createElement('div');
-          v.className = 'variant' + (i < Math.max(2, distTick) ? ' live' : '');
-          v.innerHTML = '<div class="variant-line"></div><div class="variant-line" style="width:60%"></div><div class="variant-blocks"><div class="variant-block"></div><div class="variant-block"></div></div>';
-          distVariants.appendChild(v);
-        }
-        distCandidates.textContent = distTick < 8 ? (distTick * 620).toLocaleString() : '5k+';
-        distSignals.textContent = Math.min(42, distTick * 4);
-        distSpec.textContent = distTick < 8 ? (900 - distTick * 70) + 'B' : '312B';
-        distTitle.textContent = distTick < 8 ? 'Distilling UI variants' : 'One admitted spec';
-      }
-      renderDistillation();
-      setInterval(renderDistillation, 640);
-      const domPackets = [
-        [
-          { op: 'setText', selector: '[data-slot="status"]', value: 'compiling packet' },
-          { op: 'setText', selector: '[data-slot="title"]', value: 'Typed ops can move the live DOM.' },
-          { op: 'setText', selector: '[data-slot="primary"]', value: 'Apply node ops' }
-        ],
-        [
-          { op: 'setText', selector: '[data-slot="status"]', value: 'applying mutations' },
-          { op: 'setText', selector: '[data-slot="copy"]', value: 'The actuator edits text, attributes, classes, and child nodes without rebuilding the whole page.' },
-          { op: 'addClass', selector: '#domActuatorTarget', value: 'dark' }
-        ],
-        [
-          { op: 'setText', selector: '[data-slot="status"]', value: 'receipt ready' },
-          { op: 'setAttr', selector: '[data-slot="secondary"]', name: 'data-receipt', value: 'dom-actuator' },
-          { op: 'appendTile', selector: '[data-slot="tiles"]', value: 'receipt' }
-        ]
-      ];
-      const domTarget = document.getElementById('domActuatorTarget');
-      const domOpsRail = document.getElementById('domOpsRail');
-      const domOpsCount = document.getElementById('domOpsCount');
-      const domMutations = document.getElementById('domMutations');
-      const domSnapshot = domTarget.cloneNode(true);
-      let domTick = 0;
+      const started = performance.now();
+      const term = document.getElementById('term');
+      const frames = document.getElementById('frames');
+      const mutations = document.getElementById('mutations');
+      const elapsed = document.getElementById('elapsed');
+      const artifacts = document.getElementById('artifacts');
       let mutationCount = 0;
-      new MutationObserver(records => { mutationCount += records.length; domMutations.textContent = String(mutationCount); }).observe(domTarget, { childList: true, subtree: true, characterData: true, attributes: true });
-      function applyDomOp(packetOp) {
-        const node = document.querySelector(packetOp.selector);
-        if (!node) return;
-        if (packetOp.op === 'setText') { node.textContent = packetOp.value; return 1; }
-        if (packetOp.op === 'setAttr') node.setAttribute(packetOp.name, packetOp.value);
-        if (packetOp.op === 'addClass') { node.classList.add(packetOp.value); return 1; }
-        return 0;
-        if (packetOp.op === 'appendTile') {
-          const tile = document.createElement('div');
-          opsDone += 1;
-          tile.className = 'tile';
-          tile.textContent = packetOp.value;
-          node.appendChild(tile);
-        }
-      }
-      function renderDomActuator() {
-        domTarget.className = domSnapshot.className;
-        domTarget.innerHTML = domSnapshot.innerHTML;
-        const packet = domPackets[domTick % domPackets.length];
-        packet.forEach(applyDomOp);
-        domOpsRail.innerHTML = '';
-        packet.forEach((packetOp, idx) => domOpsRail.appendChild(opNode(packetOp.op + ' ' + packetOp.selector, idx === packet.length - 1 ? 70 : 100)));
-        domOpsCount.textContent = String(packet.length);
-        domTick += 1;
-      }
-      renderDomActuator();
-      setInterval(renderDomActuator, 1100);
-      const copyOpsRail = document.getElementById('copyOpsRail');
-      const copyOpsPerSec = document.getElementById('copyOpsPerSec');
-      const topDomOpsPerSec = document.getElementById('topDomOpsPerSec');
-      const copyOpsDone = document.getElementById('copyOpsDone');
-      const copyElapsedMs = document.getElementById('copyElapsedMs');
-      const copyTarget = document.getElementById('copyTarget');
-      const copySnapshot = copyTarget ? copyTarget.cloneNode(true) : null;
-      const copyLoops = 240;
-      const copyPlan = [
-        { op: 'setText', selector: '[data-copy="brand"]', value: 'FounderCheckout' },
-        { op: 'setText', selector: '[data-copy="status"]', value: 'structure copied' },
-        { op: 'setText', selector: '[data-copy="title"]', value: 'Checkout analytics for solo founders.' },
-        { op: 'setText', selector: '[data-copy="copy"]', value: 'A recreated variant keeps the conversion structure while swapping copy, palette, proof, and CTA for a new business test.' },
-        { op: 'setText', selector: '[data-copy="primary"]', value: 'Launch variant' },
-        { op: 'setText', selector: '[data-copy="secondary"]', value: 'View receipt' },
-        { op: 'addClass', selector: '#copyTarget', value: 'dark' }
+      let frameCount = 0;
+      new MutationObserver(records => { mutationCount += records.length; mutations.textContent = mutationCount.toLocaleString(); }).observe(term, { childList: true, subtree: true, characterData: true });
+      const lines = [
+        ['prompt', 'codex: user asks for a blank real live run page'],
+        ['dim', 'policy: no rebuild for content transition; use existing engine binary'],
+        ['tool', '$ target/debug/bvt-diff-generator run-dsl runs/blank-codex-live-run-dsl.json --run-dir runs/blank-codex-live-run'],
+        ['ok', 'receipt: state=dsl_packet_loaded -> next_state=transition_applied'],
+        ['ok', 'artifacts: plan.json, diff.patch, generate-receipt.json, apply-receipt.json, run-receipt.json'],
+        ['tool', '$ vercel deploy site -y'],
+        ['ok', 'preview: current live terminal surface'],
+        ['warn', 'boundary: this is a rendered replay of the admitted transition; durable truth lives in git + receipts']
       ];
-      function applyCopyOp(packetOp) {
-        const node = document.querySelector(packetOp.selector);
-        if (!node) return;
-        if (packetOp.op === 'setText') node.textContent = packetOp.value;
-        if (packetOp.op === 'addClass') node.classList.add(packetOp.value);
+      const artifactRows = [
+        ['plan', 'runs/blank-codex-live-run/plan.json'],
+        ['diff', 'runs/blank-codex-live-run/diff.patch'],
+        ['generate', 'runs/blank-codex-live-run/generate-receipt.json'],
+        ['apply', 'runs/blank-codex-live-run/apply-receipt.json'],
+        ['run', 'runs/blank-codex-live-run/run-receipt.json']
+      ];
+      function appendLine(kind, text) {
+        const div = document.createElement('div');
+        div.className = 'line ' + kind;
+        div.textContent = text;
+        term.appendChild(div);
+        term.scrollTop = term.scrollHeight;
+        frameCount += 1;
+        frames.textContent = frameCount.toLocaleString();
+        elapsed.textContent = Math.round(performance.now() - started).toLocaleString();
       }
-      function benchmarkDomCopy() {
-        if (!copyTarget || !copySnapshot) return;
-        copyTarget.className = copySnapshot.className;
-        copyTarget.innerHTML = copySnapshot.innerHTML;
-        const start = performance.now();
-        let opsDone = 0;
-        for (let i = 0; i < copyLoops; i++) {
-          copyPlan.forEach(op => { opsDone += applyCopyOp(op); });
-          const tile = document.createElement('div');
-          tile.className = 'tile';
-          tile.textContent = 'proof ' + (i % 9);
-          opsDone += 1;
-          document.querySelector('[data-copy="tiles"]').replaceChildren(tile, tile.cloneNode(true), tile.cloneNode(true));
-          opsDone += 3;
-        }
-        const elapsed = Math.max(.001, performance.now() - start);
-        const measuredCopyOps = Math.round(opsDone / (elapsed / 1000)); copyOpsPerSec.textContent = measuredCopyOps.toLocaleString(); if (topDomOpsPerSec) topDomOpsPerSec.textContent = measuredCopyOps.toLocaleString();
-        copyOpsDone.textContent = opsDone.toLocaleString();
-        if (copyElapsedMs) copyElapsedMs.textContent = elapsed.toFixed(2);
-        copyOpsRail.innerHTML = '';
-        ['loops: ' + copyLoops, 'counted DOM calls: ' + opsDone.toLocaleString(), 'elapsed ms: ' + elapsed.toFixed(2), 'formula: ops / seconds', 'ops/sec: ' + measuredCopyOps.toLocaleString(), 'boundary: microbench only'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));
+      function addArtifact(row) {
+        const k = document.createElement('div');
+        const v = document.createElement('div');
+        k.className = 'k';
+        v.className = 'v good';
+        k.textContent = row[0];
+        v.textContent = row[1];
+        artifacts.append(k, v);
       }
-      benchmarkDomCopy();
-      setInterval(benchmarkDomCopy, 1800);
+      lines.forEach((line, index) => setTimeout(() => appendLine(line[0], line[1]), index * 360));
+      artifactRows.forEach((row, index) => setTimeout(() => addArtifact(row), 900 + index * 260));
+      setInterval(() => { elapsed.textContent = Math.round(performance.now() - started).toLocaleString(); }, 250);
     </script>
   </body>
 </html>

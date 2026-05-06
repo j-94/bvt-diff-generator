@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/blank-codex-live-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "replace the site with a blank terminal-first Codex live run page",
+  "diff": "runs/blank-codex-live-run/diff.patch",
+  "dsl_plan": "runs/blank-codex-live-run-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/blank-codex-live-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 3,
+  "plan": "runs/blank-codex-live-run/plan.json",
+  "state": "dsl_packet_loaded"
+}

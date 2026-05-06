@@ -1,0 +1,15 @@
+{
+  "intent": "point README at the blank terminal-first Codex live run site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 7,
+      "end": 7,
+      "lines": [
+        "Live site: https://site-mk0rzu4uw-jasedgws-projects.vercel.app"
+      ]
+    }
+  ]
+}

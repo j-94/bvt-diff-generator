@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/readme-blank-live-run-url/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "point README at the blank terminal-first Codex live run site",
+  "diff": "runs/readme-blank-live-run-url/diff.patch",
+  "dsl_plan": "runs/readme-blank-live-run-url-dsl.json",
+  "file_count": 1,
+  "generate_receipt": "runs/readme-blank-live-run-url/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 1,
+  "plan": "runs/readme-blank-live-run-url/plan.json",
+  "state": "dsl_packet_loaded"
+}

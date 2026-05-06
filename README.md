@@ -1,8 +1,10 @@
 # BVT Diff Generator
 
-Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
+Product one-liner: Codex Live Run is a terminal-first system surface: one high-level instruction routes through the existing BVT engine binary, emits receipts, and renders the run without product-card theatre.
 
-Live site: https://site-7mi6eei4c-jasedgws-projects.vercel.app
+Blank page reset: the live site is now a terminal-first Codex run page inspired by the wterm/Ghostty example, with artifacts and metrics instead of CTA panels.
+
+Live site: https://site-mk0rzu4uw-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
