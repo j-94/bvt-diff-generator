@@ -2,7 +2,7 @@
 
 Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
 
-Live site: https://site-8lu283661-jasedgws-projects.vercel.app
+Live site: https://site-o4hctkeup-jasedgws-projects.vercel.app
 
 This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
 

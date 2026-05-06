@@ -1,0 +1,10 @@
+--- a/site/index.html
++++ b/site/index.html
+         </div>
+         <nav class='links'>
+           <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
+-          <a class='button' href='https://site-8lu283661-jasedgws-projects.vercel.app'>Live site</a>
++          <a class='button' href='.'>Live site</a>
+         </nav>
+       </div>
+ 

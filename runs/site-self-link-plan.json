@@ -1,0 +1,15 @@
+{
+  "intent": "make the live site navigation self-referential so preview URLs do not stale",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 81,
+      "end": 81,
+      "lines": [
+        "          <a class='button' href='.'>Live site</a>"
+      ]
+    }
+  ]
+}

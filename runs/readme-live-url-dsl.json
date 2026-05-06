@@ -1,0 +1,12 @@
+{
+  "intent": "update README live site URL after deploying the generated animation",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-o4hctkeup-jasedgws-projects.vercel.app"
+    }
+  ]
+}
