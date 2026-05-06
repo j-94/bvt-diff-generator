@@ -1,0 +1,21 @@
+{
+  "intent": "point README at the live site with the real end-to-end generator run",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-5u8szgowq-jasedgws-projects.vercel.app"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Killer feature:",
+      "lines": [
+        "",
+        "Real run: `runs/e2e-ui-run` shows `compile-dsl -> generate -> apply` turning one UI intent packet into `ui-run.diff`, receipts, and a generated `workspace/index.html` page."
+      ]
+    }
+  ]
+}

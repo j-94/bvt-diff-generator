@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>ReceiptDesk</title>
+    <style>
+      body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #0b1016; color: #edf7f1; }
+      main { min-height: 100vh; display: grid; align-content: center; gap: 24px; padding: 48px; }
+      h1 { margin: 0; max-width: 720px; font-size: clamp(46px, 8vw, 92px); line-height: .9; }
+      p { max-width: 620px; color: #9ca9a4; font-size: 20px; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      a { color: #06100c; background: #35d39a; padding: 10px 14px; text-decoration: none; font-weight: 800; }
+      .ghost { color: #edf7f1; background: transparent; border: 1px solid #263541; }
+      .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 760px; }
+      .tile { min-height: 90px; border: 1px solid #263541; background: #101820; padding: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Promote one receipt-backed UI change.</h1>
+      <p>ReceiptDesk turns a product intent into a selected diff, evidence packet, rollback packet, and deployable page.</p>
+      <div class='actions'><a href='#'>Promote diff</a><a class='ghost' href='#'>Open receipt</a></div>
+      <section class='grid'>
+        <div class='tile'>Intent packet</div>
+        <div class='tile'>Generated diff</div>
+        <div class='tile'>Rollback ready</div>
+      </section>
+    </main>
+  </body>
+</html>
