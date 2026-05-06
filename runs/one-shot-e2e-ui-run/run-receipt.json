@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/one-shot-e2e-ui-run/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "turn a placeholder page into a receipt-backed product UI",
+  "diff": "runs/one-shot-e2e-ui-run/diff.patch",
+  "dsl_plan": "runs/e2e-ui-run/ui-run-dsl.json",
+  "file_count": 1,
+  "generate_receipt": "runs/one-shot-e2e-ui-run/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 1,
+  "plan": "runs/one-shot-e2e-ui-run/plan.json",
+  "state": "dsl_packet_loaded"
+}

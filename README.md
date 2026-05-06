@@ -74,6 +74,7 @@ bvt-diff-generator generate examples/plan.json --out runs/example.diff --receipt
 bvt-diff-generator check examples/plan.json
 bvt-diff-generator apply examples/plan.json --receipt runs/apply-receipt.json
 bvt-diff-generator compile-dsl examples/dsl-plan.json --out runs/compiled-plan.json
+bvt-diff-generator run-dsl examples/dsl-plan.json --run-dir runs/example-run
 bvt-diff-generator bench --iterations 10000 --ops 32
 ```
 

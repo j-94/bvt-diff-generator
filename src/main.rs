@@ -36,6 +36,11 @@ enum Command {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    RunDsl {
+        dsl_plan: PathBuf,
+        #[arg(long)]
+        run_dir: PathBuf,
+    },
     Bench {
         #[arg(long, default_value_t = 1000)]
         iterations: usize,
@@ -75,6 +80,46 @@ fn main() -> Result<()> {
             let plan = compile_dsl(&dsl)?;
             let raw = serde_json::to_string_pretty(&plan)?;
             write_or_print(out, &format!("{raw}\n"))?;
+        }
+        Command::RunDsl { dsl_plan, run_dir } => {
+            let dsl = load_dsl_plan(&dsl_plan)?;
+            let plan = compile_dsl(&dsl)?;
+            fs::create_dir_all(&run_dir)
+                .with_context(|| format!("creating {}", run_dir.display()))?;
+
+            let plan_path = run_dir.join("plan.json");
+            let diff_path = run_dir.join("diff.patch");
+            let generate_receipt_path = run_dir.join("generate-receipt.json");
+            let apply_receipt_path = run_dir.join("apply-receipt.json");
+            let run_receipt_path = run_dir.join("run-receipt.json");
+
+            write_json(plan_path.clone(), &plan)?;
+            let bundle = build_bundle(&plan)?;
+            write_or_print(Some(diff_path.clone()), &bundle.unified_diff)?;
+            write_json(generate_receipt_path.clone(), &bundle.receipt)?;
+            apply_bundle(&plan.base_dir, &bundle)?;
+            write_json(apply_receipt_path.clone(), &bundle.receipt)?;
+
+            let run_receipt = serde_json::json!({
+                "state": "dsl_packet_loaded",
+                "delta": dsl.intent,
+                "control": [
+                    "compiled_dsl",
+                    "generated_unified_diff",
+                    "wrote_receipts",
+                    "applied_candidate"
+                ],
+                "next_state": "transition_applied",
+                "dsl_plan": dsl_plan,
+                "plan": plan_path,
+                "diff": diff_path,
+                "generate_receipt": generate_receipt_path,
+                "apply_receipt": apply_receipt_path,
+                "op_count": bundle.receipt.op_count,
+                "file_count": bundle.receipt.file_count,
+            });
+            write_json(run_receipt_path.clone(), &run_receipt)?;
+            println!("{}", serde_json::to_string_pretty(&run_receipt)?);
         }
         Command::Bench { iterations, ops } => {
             let receipt = benchmark(iterations, ops)?;
