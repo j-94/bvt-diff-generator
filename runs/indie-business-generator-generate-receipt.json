@@ -1,0 +1,15 @@
+{
+  "state": "workspace_files_read",
+  "delta": "18 structured edit ops",
+  "control": [
+    "relative_paths_only",
+    "line_ranges_validated",
+    "unified_diff_rendered",
+    "no_write_without_apply"
+  ],
+  "next_state": "candidate_diff_generated",
+  "op_count": 18,
+  "file_count": 2,
+  "elapsed_ms": 3.307125,
+  "ops_per_second": 5442.793967570019
+}

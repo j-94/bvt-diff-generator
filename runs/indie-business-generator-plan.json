@@ -1,0 +1,205 @@
+{
+  "intent": "reframe the product as an indie hacker business generator with receipt-backed experiments",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 6,
+      "end": 6,
+      "lines": [
+        "    <title>BVT Indie Business Generator</title>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 7,
+      "end": 7,
+      "lines": [
+        "    <meta name='description' content='BVT turns one indie hacker business idea into ranked landing pages, CTAs, pricing tests, DOM experiments, and receipt-backed deploys.'>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 97,
+      "end": 97,
+      "lines": [
+        "          <h1>BVT Indie Business Generator</h1>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 98,
+      "end": 98,
+      "lines": [
+        "          <p class='lead'>Describe one indie hacker idea. BVT expands it into ranked offers, landing pages, CTAs, pricing angles, DOM experiments, and deployable receipts so you can test the business instead of hand-editing every variation.</p>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 109,
+      "end": 109,
+      "lines": [
+        "            <div class='lane-head'><h2>Manual Business Iteration</h2><span class='tag'>one offer per loop</span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 111,
+      "end": 111,
+      "lines": [
+        "              <div class='meter'><span>offer variants</span><strong id='slowCandidates'>1</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 124,
+      "end": 124,
+      "lines": [
+        "            <div class='lane-head'><h2>BVT Business Factory</h2><span class='tag'>idea -> ranked experiments</span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 126,
+      "end": 126,
+      "lines": [
+        "              <div class='meter'><span>ranked experiments/sec</span><strong id='fastCandidates'>0</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 140,
+      "end": 140,
+      "lines": [
+        "      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Business claim: this accelerates offer, page, CTA, pricing, and DOM experiment generation; customers, revenue, and retained learning still require real traffic, measurements, rollback, and BVT receipts.<span class='ticker'></span></div>"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 105,
+      "lines": [
+        "",
+        "      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Indie Business Generator turns one business idea into many receipt-backed market experiments: offer, page, CTA, pricing, DOM variant, deploy, result.</div>"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 141,
+      "lines": [
+        "",
+        "      <div class='stage-wrap' style='margin-top:14px'>",
+        "        <section class='stage' aria-label='Indie hacker business generator feature'>",
+        "          <article class='lane fast' style='min-height:430px'>",
+        "            <div class='lane-head'><h2>Business Experiment Generator</h2><span class='tag'>idea -> market packet</span></div>",
+        "            <div class='meters'>",
+        "              <div class='meter'><span>offers</span><strong>120</strong></div>",
+        "              <div class='meter'><span>landing pages</span><strong>40</strong></div>",
+        "              <div class='meter'><span>pricing tests</span><strong>16</strong></div>",
+        "              <div class='meter'><span>ship unit</span><strong>receipt</strong></div>",
+        "            </div>",
+        "            <div class='workspace'>",
+        "              <div class='canvas'>",
+        "                <div class='preview dark' style='min-height:310px'>",
+        "                  <div class='nav'><b>MicroSaaS Sprint</b><small>market experiment</small></div>",
+        "                  <div class='hero-ui'>",
+        "                    <h3>Launch the smallest paid proof.</h3>",
+        "                    <p>Generate offer copy, hero layout, checkout CTA, pricing anchor, and DOM variant as one measurable transition.</p>",
+        "                    <div class='cta-row'><span class='cta fill'>Generate market packet</span><span class='cta'>Rank experiments</span></div>",
+        "                  </div>",
+        "                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>",
+        "                </div>",
+        "              </div>",
+        "              <aside class='rail'><h3>Experiment Stack</h3><div class='op'><div class='op-label'><span>offer angles</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>landing variants</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>pricing anchors</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>receipt deploy</span><span>ready</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>",
+        "            </div>",
+        "          </article>",
+        "          <article class='lane' style='min-height:430px'>",
+        "            <div class='lane-head'><h2>What It Sells</h2><span class='tag'>operator outcome</span></div>",
+        "            <div class='diff' style='grid-template-columns:122px 1fr'>",
+        "              <div class='line-no'>input</div><div>one messy idea, customer, constraint, price range</div>",
+        "              <div class='line-no'>generator</div><div class='plus'>+ offers, page diffs, CTA copy, pricing tables, DOM variants</div>",
+        "              <div class='line-no'>gate</div><div>brand fit, render check, analytics hook, rollback path</div>",
+        "              <div class='line-no'>output</div><div class='plus'>+ deployable market experiment with receipt</div>",
+        "              <div class='line-no'>boundary</div><div>fast experiments do not prove demand; they make demand cheaper to measure.</div>",
+        "            </div>",
+        "            <div class='claim' style='margin:14px'>This is the indie hacker wedge: compress the path from idea to measurable business experiment while keeping evidence, rollback, and claim boundaries attached.</div>",
+        "          </article>",
+        "        </section>",
+        "      </div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 265,
+      "end": 265,
+      "lines": [
+        "        { cls: '', brand: 'OfferLab', title: 'Shape the paid promise', copy: 'Turn a raw idea into niche, pain, outcome, proof, and checkout intent.', cta: 'Generate offers', secondary: 'Set constraints' },"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 266,
+      "end": 266,
+      "lines": [
+        "        { cls: 'dark', brand: 'LaunchLab', title: 'Sweep landing pages', copy: 'Generate and rank hero, CTA, pricing, and proof sections before spending review attention.', cta: 'Run launch sweep', secondary: 'Inspect ranking' },"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 267,
+      "end": 267,
+      "lines": [
+        "        { cls: 'warm', brand: 'RevenueDesk', title: 'Promote the business test', copy: 'Ship only the selected experiment with analytics, rollback, and receipt metadata.', cta: 'Deploy test', secondary: 'Open receipt' }"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 269,
+      "end": 269,
+      "lines": [
+        "      const ops = ['business idea', 'offer DSL', 'pricing angle', 'landing variant', 'DOM test', 'render check', 'BVT gate'];"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 270,
+      "end": 270,
+      "lines": [
+        "      const diffRows = [[' ', 'S: business idea'], ['+', 'Delta: offer + hero + CTA'], ['+', 'Delta: pricing table'], ['+', 'Delta: proof section'], ['+', 'Receipt: deployable experiment']];"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 3,
+      "end": 3,
+      "lines": [
+        "Product one-liner: BVT Indie Business Generator compiles one business idea into fast, receipt-backed market experiments: offers, landing pages, CTAs, pricing tests, DOM variants, and deployable diffs."
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "README.md",
+      "at": 16,
+      "lines": [
+        "",
+        "Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached."
+      ]
+    }
+  ]
+}

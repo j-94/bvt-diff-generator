@@ -1,0 +1,12 @@
+{
+  "intent": "point README at the live indie hacker business generator site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-2oxrfd4ed-jasedgws-projects.vercel.app"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+--- a/README.md
++++ b/README.md
+ 
+ Product one-liner: BVT Indie Business Generator compiles one business idea into fast, receipt-backed market experiments: offers, landing pages, CTAs, pricing tests, DOM variants, and deployable diffs.
+ 
+-Live site: https://site-ao7xzhxb3-jasedgws-projects.vercel.app
++Live site: https://site-2oxrfd4ed-jasedgws-projects.vercel.app
+ 
+ Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
+ 

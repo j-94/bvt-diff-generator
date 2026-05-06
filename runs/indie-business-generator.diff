@@ -1,0 +1,132 @@
+--- a/README.md
++++ b/README.md
+ # BVT Diff Generator
+ 
+-Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
++Product one-liner: BVT Indie Business Generator compiles one business idea into fast, receipt-backed market experiments: offers, landing pages, CTAs, pricing tests, DOM variants, and deployable diffs.
+ 
+ Live site: https://site-ao7xzhxb3-jasedgws-projects.vercel.app
+ 
+ 
+ DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence.
+ 
++Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
++
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+ 
+ ```text
+--- a/site/index.html
++++ b/site/index.html
+   <head>
+     <meta charset='utf-8'>
+     <meta name='viewport' content='width=device-width, initial-scale=1'>
+-    <title>BVT Diff Generator</title>
+-    <meta name='description' content='BVT Diff Generator shows how high patch throughput can create many UI candidates quickly while BVT gates admission.'>
++    <title>BVT Indie Business Generator</title>
++    <meta name='description' content='BVT turns one indie hacker business idea into ranked landing pages, CTAs, pricing tests, DOM experiments, and receipt-backed deploys.'>
+     <style>
+       :root {
+         color-scheme: dark;
+     <main>
+       <header class='top'>
+         <div>
+-          <h1>BVT UI Factory</h1>
+-          <p class='lead'>Codex submits one product intent. The proxy expands it into thousands of UI patch candidates, clusters the useful signals, and returns the smallest admissible site change with tests, rollback, and receipts attached.</p>
++          <h1>BVT Indie Business Generator</h1>
++          <p class='lead'>Describe one indie hacker idea. BVT expands it into ranked offers, landing pages, CTAs, pricing angles, DOM experiments, and deployable receipts so you can test the business instead of hand-editing every variation.</p>
+         </div>
+         <nav class='links'>
+           <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
+         </nav>
+       </header>
+ 
++      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Indie Business Generator turns one business idea into many receipt-backed market experiments: offer, page, CTA, pricing, DOM variant, deploy, result.</div>
++
+       <div class='stage-wrap'>
+         <section class='stage' aria-label='UI creation speed comparison'>
+           <article class='lane slow'>
+-            <div class='lane-head'><h2>Manual UI Iteration</h2><span class='tag'>one candidate per loop</span></div>
++            <div class='lane-head'><h2>Manual Business Iteration</h2><span class='tag'>one offer per loop</span></div>
+             <div class='meters'>
+-              <div class='meter'><span>candidate UIs</span><strong id='slowCandidates'>1</strong></div>
++              <div class='meter'><span>offer variants</span><strong id='slowCandidates'>1</strong></div>
+               <div class='meter'><span>patch mode</span><strong>manual</strong></div>
+               <div class='meter'><span>tool calls</span><strong id='slowTools'>0</strong></div>
+               <div class='meter'><span>admission</span><strong>pending</strong></div>
+           </article>
+ 
+           <article class='lane fast'>
+-            <div class='lane-head'><h2>BVT Candidate Factory</h2><span class='tag'>intent -> ranked UI diffs</span></div>
++            <div class='lane-head'><h2>BVT Business Factory</h2><span class='tag'>idea -> ranked experiments</span></div>
+             <div class='meters'>
+-              <div class='meter'><span>ranked UI diffs/sec</span><strong id='fastCandidates'>0</strong></div>
++              <div class='meter'><span>ranked experiments/sec</span><strong id='fastCandidates'>0</strong></div>
+               <div class='meter'><span>patches/sec</span><strong id='fastPatches'>0</strong></div>
+               <div class='meter'><span>diff output/sec</span><strong>32MB</strong></div>
+               <div class='meter'><span>admission</span><strong>receipt</strong></div>
+         </section>
+       </div>
+ 
+-      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Feature claim: this accelerates candidate generation and ranking; admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.<span class='ticker'></span></div>
++      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Business claim: this accelerates offer, page, CTA, pricing, and DOM experiment generation; customers, revenue, and retained learning still require real traffic, measurements, rollback, and BVT receipts.<span class='ticker'></span></div>
+ 
+       <div class='stage-wrap' style='margin-top:14px'>
++        <section class='stage' aria-label='Indie hacker business generator feature'>
++          <article class='lane fast' style='min-height:430px'>
++            <div class='lane-head'><h2>Business Experiment Generator</h2><span class='tag'>idea -> market packet</span></div>
++            <div class='meters'>
++              <div class='meter'><span>offers</span><strong>120</strong></div>
++              <div class='meter'><span>landing pages</span><strong>40</strong></div>
++              <div class='meter'><span>pricing tests</span><strong>16</strong></div>
++              <div class='meter'><span>ship unit</span><strong>receipt</strong></div>
++            </div>
++            <div class='workspace'>
++              <div class='canvas'>
++                <div class='preview dark' style='min-height:310px'>
++                  <div class='nav'><b>MicroSaaS Sprint</b><small>market experiment</small></div>
++                  <div class='hero-ui'>
++                    <h3>Launch the smallest paid proof.</h3>
++                    <p>Generate offer copy, hero layout, checkout CTA, pricing anchor, and DOM variant as one measurable transition.</p>
++                    <div class='cta-row'><span class='cta fill'>Generate market packet</span><span class='cta'>Rank experiments</span></div>
++                  </div>
++                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
++                </div>
++              </div>
++              <aside class='rail'><h3>Experiment Stack</h3><div class='op'><div class='op-label'><span>offer angles</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>landing variants</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>pricing anchors</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>receipt deploy</span><span>ready</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
++            </div>
++          </article>
++          <article class='lane' style='min-height:430px'>
++            <div class='lane-head'><h2>What It Sells</h2><span class='tag'>operator outcome</span></div>
++            <div class='diff' style='grid-template-columns:122px 1fr'>
++              <div class='line-no'>input</div><div>one messy idea, customer, constraint, price range</div>
++              <div class='line-no'>generator</div><div class='plus'>+ offers, page diffs, CTA copy, pricing tables, DOM variants</div>
++              <div class='line-no'>gate</div><div>brand fit, render check, analytics hook, rollback path</div>
++              <div class='line-no'>output</div><div class='plus'>+ deployable market experiment with receipt</div>
++              <div class='line-no'>boundary</div><div>fast experiments do not prove demand; they make demand cheaper to measure.</div>
++            </div>
++            <div class='claim' style='margin:14px'>This is the indie hacker wedge: compress the path from idea to measurable business experiment while keeping evidence, rollback, and claim boundaries attached.</div>
++          </article>
++        </section>
++      </div>
++
++      <div class='stage-wrap' style='margin-top:14px'>
+         <section class='stage' aria-label='Real end to end generator run'>
+           <article class='lane fast' style='min-height:430px'>
+             <div class='lane-head'><h2>Real Run: Intent -> Patch -> Page</h2><span class='tag'>generated by engine</span></div>
+ 
+     <script>
+       const themes = [
+-        { cls: '', brand: 'AtlasDesk', title: 'Route one product intent', copy: 'Declare the desired page outcome once; keep constraints and rollback in the packet.', cta: 'Submit intent', secondary: 'View constraints' },
+-        { cls: 'dark', brand: 'PatchLab', title: 'Sweep UI candidates', copy: 'Generate and rank layout, copy, and theme diffs before spending review attention.', cta: 'Run candidate sweep', secondary: 'Inspect ranking' },
+-        { cls: 'warm', brand: 'ReceiptOS', title: 'Promote the admitted diff', copy: 'Ship only the selected patch packet with evidence, rollback, and receipt metadata.', cta: 'Promote diff', secondary: 'Open receipt' }
++        { cls: '', brand: 'OfferLab', title: 'Shape the paid promise', copy: 'Turn a raw idea into niche, pain, outcome, proof, and checkout intent.', cta: 'Generate offers', secondary: 'Set constraints' },
++        { cls: 'dark', brand: 'LaunchLab', title: 'Sweep landing pages', copy: 'Generate and rank hero, CTA, pricing, and proof sections before spending review attention.', cta: 'Run launch sweep', secondary: 'Inspect ranking' },
++        { cls: 'warm', brand: 'RevenueDesk', title: 'Promote the business test', copy: 'Ship only the selected experiment with analytics, rollback, and receipt metadata.', cta: 'Deploy test', secondary: 'Open receipt' }
+       ];
+-      const ops = ['intent packet', 'layout DSL', 'theme swap', 'copy variant', 'diff render', 'visual check', 'BVT gate'];
+-      const diffRows = [[' ', 'S: product intent'], ['+', 'Delta: hero + nav + CTA'], ['+', 'Delta: dashboard section'], ['+', 'Delta: theme variant'], ['+', 'Receipt: renderable UI diff']];
++      const ops = ['business idea', 'offer DSL', 'pricing angle', 'landing variant', 'DOM test', 'render check', 'BVT gate'];
++      const diffRows = [[' ', 'S: business idea'], ['+', 'Delta: offer + hero + CTA'], ['+', 'Delta: pricing table'], ['+', 'Delta: proof section'], ['+', 'Receipt: deployable experiment']];
+       const slowPreview = document.getElementById('slowPreview');
+       const fastPreview = document.getElementById('fastPreview');
+       const slowOps = document.getElementById('slowOps');

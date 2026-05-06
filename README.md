@@ -1,8 +1,8 @@
 # BVT Diff Generator
 
-Product one-liner: BVT Diff Generator compiles typed edit operations into fast candidate diffs, then preserves the transition as a receipt.
+Product one-liner: BVT Indie Business Generator compiles one business idea into fast, receipt-backed market experiments: offers, landing pages, CTAs, pricing tests, DOM variants, and deployable diffs.
 
-Live site: https://site-ao7xzhxb3-jasedgws-projects.vercel.app
+Live site: https://site-2oxrfd4ed-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
@@ -13,6 +13,8 @@ Killer feature: Distillation Gate compresses many generated UI diffs into one se
 Real run: `runs/e2e-ui-run` shows `compile-dsl -> generate -> apply` turning one UI intent packet into `ui-run.diff`, receipts, and a generated `workspace/index.html` page.
 
 DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence.
+
+Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
 
 This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
 
