@@ -1,0 +1,188 @@
+{
+  "intent": "reframe the product as an agent and tool-call runtime for generating business experiments",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "ops": [
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 6,
+      "end": 6,
+      "lines": [
+        "    <title>BVT Agent Tool Runtime</title>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 7,
+      "end": 7,
+      "lines": [
+        "    <meta name='description' content='BVT turns one operator goal into agent tool calls that generate offers, landing pages, DOM variants, deploys, and receipts.'>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 97,
+      "end": 97,
+      "lines": [
+        "          <h1>BVT Agent Tool Runtime</h1>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 98,
+      "end": 98,
+      "lines": [
+        "          <p class='lead'>Give one operator goal. BVT routes it through specialized agents and typed tool calls: research offer, generate page diffs, mutate DOM variants, run checks, deploy, and preserve receipts.</p>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 106,
+      "end": 106,
+      "lines": [
+        "      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 111,
+      "end": 111,
+      "lines": [
+        "            <div class='lane-head'><h2>Chat-Only Agent</h2><span class='tag'>one manual loop</span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 113,
+      "end": 113,
+      "lines": [
+        "              <div class='meter'><span>agent outputs</span><strong id='slowCandidates'>1</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 126,
+      "end": 126,
+      "lines": [
+        "            <div class='lane-head'><h2>Tool-Calling Agent Mesh</h2><span class='tag'>goal -> receipts</span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 128,
+      "end": 128,
+      "lines": [
+        "              <div class='meter'><span>tool packets/sec</span><strong id='fastCandidates'>0</strong></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 142,
+      "end": 142,
+      "lines": [
+        "      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Agent claim: this accelerates deterministic tool-call execution after an agent chooses the transition; customer demand, visual quality, and revenue still require real measurements, rollback, and BVT receipts.<span class='ticker'></span></div>"
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "site/index.html",
+      "at": 107,
+      "lines": [
+        "",
+        "      <div class='stage-wrap' style='margin-bottom:14px'>",
+        "        <section class='stage' aria-label='Agent tool call runtime'>",
+        "          <article class='lane fast' style='min-height:430px'>",
+        "            <div class='lane-head'><h2>Agent Tool Call Graph</h2><span class='tag'>planner -> tools -> receipt</span></div>",
+        "            <div class='meters'>",
+        "              <div class='meter'><span>agents</span><strong>6</strong></div>",
+        "              <div class='meter'><span>tools</span><strong>9</strong></div>",
+        "              <div class='meter'><span>artifacts</span><strong>diffs</strong></div>",
+        "              <div class='meter'><span>memory</span><strong>receipt</strong></div>",
+        "            </div>",
+        "            <div class='workspace'>",
+        "              <div class='canvas'>",
+        "                <div class='preview dark' style='min-height:310px'>",
+        "                  <div class='nav'><b>Agent Run</b><small>one operator goal</small></div>",
+        "                  <div class='hero-ui'>",
+        "                    <h3>Agents call tools, not vibes.</h3>",
+        "                    <p>The planner delegates to offer, page, pricing, DOM, deploy, and gate agents. Each tool call returns an artifact and a receipt.</p>",
+        "                    <div class='cta-row'><span class='cta fill'>Run agent graph</span><span class='cta'>Inspect tool calls</span></div>",
+        "                  </div>",
+        "                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>",
+        "                </div>",
+        "              </div>",
+        "              <aside class='rail'><h3>Agents</h3><div class='op'><div class='op-label'><span>planner</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>offer agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>page agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>gate agent</span><span>receipt</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>",
+        "            </div>",
+        "          </article>",
+        "          <article class='lane' style='min-height:430px'>",
+        "            <div class='lane-head'><h2>Tool Calls</h2><span class='tag'>typed surface</span></div>",
+        "            <div class='diff' style='grid-template-columns:132px 1fr'>",
+        "              <div class='line-no'>research_offer</div><div>customer, pain, promise, price range</div>",
+        "              <div class='line-no'>compile_dsl</div><div class='plus'>+ typed edit ops from agent intent</div>",
+        "              <div class='line-no'>generate_diff</div><div class='plus'>+ unified patch artifact + receipt</div>",
+        "              <div class='line-no'>apply_dom</div><div class='plus'>+ live browser mutation packet</div>",
+        "              <div class='line-no'>deploy_site</div><div>Vercel preview with rollback path</div>",
+        "              <div class='line-no'>admit_result</div><div>BVT gate stores the transition boundary</div>",
+        "            </div>",
+        "            <div class='claim' style='margin:14px'>The business generator becomes a workload on top of the runtime: agents decide what to try; tools produce diffs, DOM mutations, deploys, and receipts; BVT decides what carries forward.</div>",
+        "          </article>",
+        "        </section>",
+        "      </div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 147,
+      "end": 147,
+      "lines": [
+        "            <div class='lane-head'><h2>Business Workload</h2><span class='tag'>agents generate experiments</span></div>"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 310,
+      "end": 310,
+      "lines": [
+        "      const ops = ['operator goal', 'planner agent', 'tool selection', 'typed tool call', 'artifact receipt', 'render check', 'BVT gate'];"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "site/index.html",
+      "start": 311,
+      "end": 311,
+      "lines": [
+        "      const diffRows = [[' ', 'S: operator goal'], ['+', 'Tool: research_offer'], ['+', 'Tool: generate_diff'], ['+', 'Tool: apply_dom'], ['+', 'Receipt: admitted transition']];"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": "README.md",
+      "start": 3,
+      "end": 3,
+      "lines": [
+        "Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts."
+      ]
+    },
+    {
+      "kind": "insert",
+      "path": "README.md",
+      "at": 18,
+      "lines": [
+        "",
+        "Agent/tool-call framing: the indie business generator is a workload. Agents choose transitions; tools execute `research_offer`, `compile_dsl`, `generate_diff`, `apply_dom`, `deploy_site`, and `admit_result` with receipts."
+      ]
+    }
+  ]
+}

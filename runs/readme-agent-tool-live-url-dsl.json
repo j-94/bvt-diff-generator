@@ -1,0 +1,12 @@
+{
+  "intent": "point README at the live agent tool-call runtime site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-2wd2gyjl4-jasedgws-projects.vercel.app"
+    }
+  ]
+}

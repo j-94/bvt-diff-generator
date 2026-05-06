@@ -1,0 +1,131 @@
+--- a/README.md
++++ b/README.md
+ # BVT Diff Generator
+ 
+-Product one-liner: BVT Indie Business Generator compiles one business idea into fast, receipt-backed market experiments: offers, landing pages, CTAs, pricing tests, DOM variants, and deployable diffs.
++Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
+ 
+ Live site: https://site-2oxrfd4ed-jasedgws-projects.vercel.app
+ 
+ 
+ Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
+ 
++Agent/tool-call framing: the indie business generator is a workload. Agents choose transitions; tools execute `research_offer`, `compile_dsl`, `generate_diff`, `apply_dom`, `deploy_site`, and `admit_result` with receipts.
++
+ This repo is a small Rust CLI/library for turning structured edit ops into unified diffs:
+ 
+ ```text
+--- a/site/index.html
++++ b/site/index.html
+   <head>
+     <meta charset='utf-8'>
+     <meta name='viewport' content='width=device-width, initial-scale=1'>
+-    <title>BVT Indie Business Generator</title>
+-    <meta name='description' content='BVT turns one indie hacker business idea into ranked landing pages, CTAs, pricing tests, DOM experiments, and receipt-backed deploys.'>
++    <title>BVT Agent Tool Runtime</title>
++    <meta name='description' content='BVT turns one operator goal into agent tool calls that generate offers, landing pages, DOM variants, deploys, and receipts.'>
+     <style>
+       :root {
+         color-scheme: dark;
+     <main>
+       <header class='top'>
+         <div>
+-          <h1>BVT Indie Business Generator</h1>
+-          <p class='lead'>Describe one indie hacker idea. BVT expands it into ranked offers, landing pages, CTAs, pricing angles, DOM experiments, and deployable receipts so you can test the business instead of hand-editing every variation.</p>
++          <h1>BVT Agent Tool Runtime</h1>
++          <p class='lead'>Give one operator goal. BVT routes it through specialized agents and typed tool calls: research offer, generate page diffs, mutate DOM variants, run checks, deploy, and preserve receipts.</p>
+         </div>
+         <nav class='links'>
+           <a class='button primary' href='https://github.com/j-94/bvt-diff-generator'>GitHub</a>
+         </nav>
+       </header>
+ 
+-      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Indie Business Generator turns one business idea into many receipt-backed market experiments: offer, page, CTA, pricing, DOM variant, deploy, result.</div>
++      <div class='claim' style='margin-bottom:14px'>Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.</div>
++
++      <div class='stage-wrap' style='margin-bottom:14px'>
++        <section class='stage' aria-label='Agent tool call runtime'>
++          <article class='lane fast' style='min-height:430px'>
++            <div class='lane-head'><h2>Agent Tool Call Graph</h2><span class='tag'>planner -> tools -> receipt</span></div>
++            <div class='meters'>
++              <div class='meter'><span>agents</span><strong>6</strong></div>
++              <div class='meter'><span>tools</span><strong>9</strong></div>
++              <div class='meter'><span>artifacts</span><strong>diffs</strong></div>
++              <div class='meter'><span>memory</span><strong>receipt</strong></div>
++            </div>
++            <div class='workspace'>
++              <div class='canvas'>
++                <div class='preview dark' style='min-height:310px'>
++                  <div class='nav'><b>Agent Run</b><small>one operator goal</small></div>
++                  <div class='hero-ui'>
++                    <h3>Agents call tools, not vibes.</h3>
++                    <p>The planner delegates to offer, page, pricing, DOM, deploy, and gate agents. Each tool call returns an artifact and a receipt.</p>
++                    <div class='cta-row'><span class='cta fill'>Run agent graph</span><span class='cta'>Inspect tool calls</span></div>
++                  </div>
++                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
++                </div>
++              </div>
++              <aside class='rail'><h3>Agents</h3><div class='op'><div class='op-label'><span>planner</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>offer agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>page agent</span><span>100%</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div><div class='op'><div class='op-label'><span>gate agent</span><span>receipt</span></div><div class='bar'><div class='fill' style='width:100%'></div></div></div></aside>
++            </div>
++          </article>
++          <article class='lane' style='min-height:430px'>
++            <div class='lane-head'><h2>Tool Calls</h2><span class='tag'>typed surface</span></div>
++            <div class='diff' style='grid-template-columns:132px 1fr'>
++              <div class='line-no'>research_offer</div><div>customer, pain, promise, price range</div>
++              <div class='line-no'>compile_dsl</div><div class='plus'>+ typed edit ops from agent intent</div>
++              <div class='line-no'>generate_diff</div><div class='plus'>+ unified patch artifact + receipt</div>
++              <div class='line-no'>apply_dom</div><div class='plus'>+ live browser mutation packet</div>
++              <div class='line-no'>deploy_site</div><div>Vercel preview with rollback path</div>
++              <div class='line-no'>admit_result</div><div>BVT gate stores the transition boundary</div>
++            </div>
++            <div class='claim' style='margin:14px'>The business generator becomes a workload on top of the runtime: agents decide what to try; tools produce diffs, DOM mutations, deploys, and receipts; BVT decides what carries forward.</div>
++          </article>
++        </section>
++      </div>
+ 
+       <div class='stage-wrap'>
+         <section class='stage' aria-label='UI creation speed comparison'>
+           <article class='lane slow'>
+-            <div class='lane-head'><h2>Manual Business Iteration</h2><span class='tag'>one offer per loop</span></div>
++            <div class='lane-head'><h2>Chat-Only Agent</h2><span class='tag'>one manual loop</span></div>
+             <div class='meters'>
+-              <div class='meter'><span>offer variants</span><strong id='slowCandidates'>1</strong></div>
++              <div class='meter'><span>agent outputs</span><strong id='slowCandidates'>1</strong></div>
+               <div class='meter'><span>patch mode</span><strong>manual</strong></div>
+               <div class='meter'><span>tool calls</span><strong id='slowTools'>0</strong></div>
+               <div class='meter'><span>admission</span><strong>pending</strong></div>
+           </article>
+ 
+           <article class='lane fast'>
+-            <div class='lane-head'><h2>BVT Business Factory</h2><span class='tag'>idea -> ranked experiments</span></div>
++            <div class='lane-head'><h2>Tool-Calling Agent Mesh</h2><span class='tag'>goal -> receipts</span></div>
+             <div class='meters'>
+-              <div class='meter'><span>ranked experiments/sec</span><strong id='fastCandidates'>0</strong></div>
++              <div class='meter'><span>tool packets/sec</span><strong id='fastCandidates'>0</strong></div>
+               <div class='meter'><span>patches/sec</span><strong id='fastPatches'>0</strong></div>
+               <div class='meter'><span>diff output/sec</span><strong>32MB</strong></div>
+               <div class='meter'><span>admission</span><strong>receipt</strong></div>
+         </section>
+       </div>
+ 
+-      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Business claim: this accelerates offer, page, CTA, pricing, and DOM experiment generation; customers, revenue, and retained learning still require real traffic, measurements, rollback, and BVT receipts.<span class='ticker'></span></div>
++      <div class='claim'>Measured local release bench: 320,000 typed ops -> 10,000 unified patch artifacts in about 0.22-0.24s, roughly 41k-45k patches/sec. Agent claim: this accelerates deterministic tool-call execution after an agent chooses the transition; customer demand, visual quality, and revenue still require real measurements, rollback, and BVT receipts.<span class='ticker'></span></div>
+ 
+       <div class='stage-wrap' style='margin-top:14px'>
+         <section class='stage' aria-label='Indie hacker business generator feature'>
+           <article class='lane fast' style='min-height:430px'>
+-            <div class='lane-head'><h2>Business Experiment Generator</h2><span class='tag'>idea -> market packet</span></div>
++            <div class='lane-head'><h2>Business Workload</h2><span class='tag'>agents generate experiments</span></div>
+             <div class='meters'>
+               <div class='meter'><span>offers</span><strong>120</strong></div>
+               <div class='meter'><span>landing pages</span><strong>40</strong></div>
+         { cls: 'dark', brand: 'LaunchLab', title: 'Sweep landing pages', copy: 'Generate and rank hero, CTA, pricing, and proof sections before spending review attention.', cta: 'Run launch sweep', secondary: 'Inspect ranking' },
+         { cls: 'warm', brand: 'RevenueDesk', title: 'Promote the business test', copy: 'Ship only the selected experiment with analytics, rollback, and receipt metadata.', cta: 'Deploy test', secondary: 'Open receipt' }
+       ];
+-      const ops = ['business idea', 'offer DSL', 'pricing angle', 'landing variant', 'DOM test', 'render check', 'BVT gate'];
+-      const diffRows = [[' ', 'S: business idea'], ['+', 'Delta: offer + hero + CTA'], ['+', 'Delta: pricing table'], ['+', 'Delta: proof section'], ['+', 'Receipt: deployable experiment']];
++      const ops = ['operator goal', 'planner agent', 'tool selection', 'typed tool call', 'artifact receipt', 'render check', 'BVT gate'];
++      const diffRows = [[' ', 'S: operator goal'], ['+', 'Tool: research_offer'], ['+', 'Tool: generate_diff'], ['+', 'Tool: apply_dom'], ['+', 'Receipt: admitted transition']];
+       const slowPreview = document.getElementById('slowPreview');
+       const fastPreview = document.getElementById('fastPreview');
+       const slowOps = document.getElementById('slowOps');
