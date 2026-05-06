@@ -1,0 +1,21 @@
+{
+  "intent": "update README with UI factory deployment URL and candidate UI generation explanation",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-62873adm9-jasedgws-projects.vercel.app"
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Current release benchmark:",
+      "lines": [
+        "",
+        "UI factory claim boundary: this throughput can create many candidate UI diffs quickly, but admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts."
+      ]
+    }
+  ]
+}
