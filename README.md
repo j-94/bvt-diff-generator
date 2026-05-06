@@ -2,7 +2,7 @@
 
 Product one-liner: BVT Agent Tool Runtime turns one operator goal into coordinated agent tool calls with typed diffs, DOM mutations, deploys, rollback, and receipts.
 
-Live site: https://site-6u46fs125-jasedgws-projects.vercel.app
+Live site: https://site-g62on078m-jasedgws-projects.vercel.app
 
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
@@ -13,6 +13,8 @@ Killer feature: Distillation Gate compresses many generated UI diffs into one se
 Real run: `runs/e2e-ui-run` shows `compile-dsl -> generate -> apply` turning one UI intent packet into `ui-run.diff`, receipts, and a generated `workspace/index.html` page.
 
 DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence.
+
+Live-site copy demo: the site shows an authorized structure-copy workflow where typed DOM ops recreate a landing page variant and measure browser-side DOM ops/sec live.
 
 Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
 

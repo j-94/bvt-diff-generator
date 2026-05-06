@@ -1,0 +1,12 @@
+{
+  "intent": "point README at the live authorized DOM copy demo site",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "replace_line_containing",
+      "path": "README.md",
+      "needle": "Live site:",
+      "line": "Live site: https://site-g62on078m-jasedgws-projects.vercel.app"
+    }
+  ]
+}

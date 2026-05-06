@@ -1,0 +1,109 @@
+--- a/README.md
++++ b/README.md
+ 
+ DOM actuator: the live site now shows typed browser operations (`setText`, `setAttr`, `addClass`, `appendTile`) mutating real DOM nodes with a rollback snapshot and `MutationObserver` evidence.
+ 
++Live-site copy demo: the site shows an authorized structure-copy workflow where typed DOM ops recreate a landing page variant and measure browser-side DOM ops/sec live.
++
+ Indie hacker wedge: use high-throughput diff generation to create many cheap market experiments, while BVT keeps receipts, rollback, and honest claim boundaries attached.
+ 
+ Agent/tool-call framing: the indie business generator is a workload. Agents choose transitions; tools execute `research_offer`, `compile_dsl`, `generate_diff`, `apply_dom`, `deploy_site`, and `admit_result` with receipts.
+--- a/site/index.html
++++ b/site/index.html
+               <div class='line-no'>boundary</div><div>DOM speed is not visual admission; rendered checks still gate.</div>
+             </div>
+             <div class='claim' style='margin:14px'>The useful split is: BVT generates and receipts the transition; a DOM actuator applies small typed UI mutations in the browser; a later Zig/WASM kernel could compute op batches, but the DOM boundary remains JavaScript imports.</div>
++
++      <div class='stage-wrap' style='margin-top:14px'>
++        <section class='stage' aria-label='Authorized live site DOM copy demo'>
++          <article class='lane fast' style='min-height:470px'>
++            <div class='lane-head'><h2>Authorized Live Site Copy</h2><span class='tag'>inspect -> DOM ops -> receipt</span></div>
++            <div class='meters'>
++              <div class='meter'><span>measured DOM ops/sec</span><strong id='copyOpsPerSec'>0</strong></div>
++              <div class='meter'><span>ops applied</span><strong id='copyOpsDone'>0</strong></div>
++              <div class='meter'><span>copy mode</span><strong>structure</strong></div>
++              <div class='meter'><span>boundary</span><strong>authorized</strong></div>
++            </div>
++            <div class='workspace'>
++              <div class='canvas'>
++                <div class='preview dark' style='min-height:330px'>
++                  <div class='nav'><b>Source: owned live page</b><small>observed structure</small></div>
++                  <div class='hero-ui'>
++                    <h3>Checkout analytics for solo founders.</h3>
++                    <p>Header, offer, proof row, checkout CTA, pricing blocks, and testimonial rhythm are captured as structure, not stolen assets.</p>
++                    <div class='cta-row'><span class='cta fill'>Start trial</span><span class='cta'>View proof</span></div>
++                  </div>
++                  <div class='ui-grid'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
++                </div>
++              </div>
++              <aside class='rail'><h3>Copy Plan</h3><div id='copyOpsRail'></div></aside>
++            </div>
++          </article>
++          <article class='lane' style='min-height:470px'>
++            <div class='lane-head'><h2>Recreated Target</h2><span class='tag'>live DOM mutations</span></div>
++            <div class='canvas' style='border-right:0'>
++              <div id='copyTarget' class='preview warm' style='min-height:330px'>
++                <div class='nav'><b data-copy='brand'>BlankSite</b><small data-copy='status'>waiting</small></div>
++                <div class='hero-ui'>
++                  <h3 data-copy='title'>Empty landing shell.</h3>
++                  <p data-copy='copy'>The actuator will recreate the structure with typed DOM calls.</p>
++                  <div class='cta-row'><span class='cta fill' data-copy='primary'>Apply copy plan</span><span class='cta' data-copy='secondary'>Open receipt</span></div>
++                </div>
++                <div class='ui-grid' data-copy='tiles'><div class='tile'></div><div class='tile'></div><div class='tile'></div></div>
++              </div>
++            </div>
++            <div class='claim' style='margin:14px'>Realer path: an agent inspects an owned or authorized page, distills layout and offer structure, then issues typed DOM ops to recreate a variant. Do not copy protected branding, private content, or third-party assets without permission.</div>
++          </article>
++        </section>
++      </div>
+           </article>
+         </section>
+       </div>
+       }
+       renderDomActuator();
+       setInterval(renderDomActuator, 1100);
++      const copyOpsRail = document.getElementById('copyOpsRail');
++      const copyOpsPerSec = document.getElementById('copyOpsPerSec');
++      const copyOpsDone = document.getElementById('copyOpsDone');
++      const copyTarget = document.getElementById('copyTarget');
++      const copySnapshot = copyTarget ? copyTarget.cloneNode(true) : null;
++      const copyPlan = [
++        { op: 'setText', selector: '[data-copy="brand"]', value: 'FounderCheckout' },
++        { op: 'setText', selector: '[data-copy="status"]', value: 'structure copied' },
++        { op: 'setText', selector: '[data-copy="title"]', value: 'Checkout analytics for solo founders.' },
++        { op: 'setText', selector: '[data-copy="copy"]', value: 'A recreated variant keeps the conversion structure while swapping copy, palette, proof, and CTA for a new business test.' },
++        { op: 'setText', selector: '[data-copy="primary"]', value: 'Launch variant' },
++        { op: 'setText', selector: '[data-copy="secondary"]', value: 'View receipt' },
++        { op: 'addClass', selector: '#copyTarget', value: 'dark' }
++      ];
++      function applyCopyOp(packetOp) {
++        const node = document.querySelector(packetOp.selector);
++        if (!node) return;
++        if (packetOp.op === 'setText') node.textContent = packetOp.value;
++        if (packetOp.op === 'addClass') node.classList.add(packetOp.value);
++      }
++      function benchmarkDomCopy() {
++        if (!copyTarget || !copySnapshot) return;
++        copyTarget.className = copySnapshot.className;
++        copyTarget.innerHTML = copySnapshot.innerHTML;
++        const start = performance.now();
++        let opsDone = 0;
++        for (let i = 0; i < 240; i++) {
++          copyPlan.forEach(op => { applyCopyOp(op); opsDone += 1; });
++          const tile = document.createElement('div');
++          tile.className = 'tile';
++          tile.textContent = 'proof ' + (i % 9);
++          document.querySelector('[data-copy="tiles"]').replaceChildren(tile, tile.cloneNode(true), tile.cloneNode(true));
++          opsDone += 4;
++        }
++        const elapsed = Math.max(.001, performance.now() - start);
++        copyOpsPerSec.textContent = Math.round(opsDone / (elapsed / 1000)).toLocaleString();
++        copyOpsDone.textContent = opsDone.toLocaleString();
++        copyOpsRail.innerHTML = '';
++        ['inspect DOM', 'distill structure', 'setText nodes', 'swap class', 'replace proof tiles', 'emit receipt'].forEach((label, idx) => copyOpsRail.appendChild(opNode(label, idx < 5 ? 100 : 75)));
++      }
++      benchmarkDomCopy();
++      setInterval(benchmarkDomCopy, 1800);
+     </script>
+   </body>
+ </html>
