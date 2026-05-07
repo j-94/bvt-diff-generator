@@ -3,21 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=dx.html">
     <title>BVT Realtime DX</title>
     <style>
-      :root { color-scheme: dark; --bg: #050607; --ink: #f4f7f2; --green: #4cffac; --muted: #9ca79f; }
-      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-      main { max-width: 680px; padding: 32px; line-height: 1.5; }
-      a { color: var(--green); }
-      p { color: var(--muted); }
+      html, body { margin: 0; width: 100%; min-height: 100%; background: #050607; }
+      iframe { display: block; width: 100vw; height: 100vh; border: 0; background: #050607; }
+      .fallback { position: fixed; inset: auto 16px 16px 16px; color: #9ca79f; font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .fallback a { color: #4cffac; }
     </style>
   </head>
   <body>
-    <main>
-      <h1>BVT Realtime DX</h1>
-      <p>Redirecting to the realtime DSL/CI surface.</p>
-      <p><a href="dx.html">Open dx.html</a></p>
-    </main>
+    <iframe src="dx.html" title="BVT Realtime DX"></iframe>
+    <div class="fallback">If the frame does not load, open <a href="dx.html">dx.html</a>.</div>
   </body>
 </html>

@@ -10,6 +10,8 @@ Realtime DX surface: `site/dx.html` shows the production wedge: DSL packet -> BV
 
 Routing note: the site root now redirects to `dx.html`, and `site/dx/index.html` makes local clean-url testing work without depending on Vercel routing.
 
+Local root note: `site/index.html` embeds `dx.html` directly so the in-app browser does not depend on meta-refresh behavior.
+
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
 UI factory claim boundary: this throughput can create many candidate UI diffs quickly, but admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.
