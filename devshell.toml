@@ -1,0 +1,24 @@
+[[commands]]
+name = "run-dsl"
+help = "Run a high-level DSL packet through the BVT diff engine and save receipts"
+command = "cargo run -- run-dsl"
+
+[[commands]]
+name = "bench"
+help = "Measure structured op-to-diff throughput"
+command = "cargo run -- bench --iterations 10000 --ops 32"
+
+[[commands]]
+name = "serve-viewer"
+help = "Serve the static DX viewer locally"
+command = "cd site && python3 -m http.server 8080"
+
+[[commands]]
+name = "deploy-preview"
+help = "Deploy the static site as a Vercel preview"
+command = "vercel deploy site -y"
+
+[[commands]]
+name = "tail-ci"
+help = "Watch GitHub Actions state for the current repository"
+command = "gh run list --limit 10"
