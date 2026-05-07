@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/realtime-dx-wterm-ci/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "add a realtime DX surface that uses bvt-diff-generator CI as executor, wterm as terminal substrate, and devshell as reproducible command contract",
+  "diff": "runs/realtime-dx-wterm-ci/diff.patch",
+  "dsl_plan": "runs/realtime-dx-wterm-ci-dsl.json",
+  "file_count": 3,
+  "generate_receipt": "runs/realtime-dx-wterm-ci/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 3,
+  "plan": "runs/realtime-dx-wterm-ci/plan.json",
+  "state": "dsl_packet_loaded"
+}

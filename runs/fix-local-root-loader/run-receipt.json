@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/fix-local-root-loader/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "make local root render the realtime DX page directly instead of relying on meta refresh",
+  "diff": "runs/fix-local-root-loader/diff.patch",
+  "dsl_plan": "runs/fix-local-root-loader-dsl.json",
+  "file_count": 2,
+  "generate_receipt": "runs/fix-local-root-loader/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 2,
+  "plan": "runs/fix-local-root-loader/plan.json",
+  "state": "dsl_packet_loaded"
+}

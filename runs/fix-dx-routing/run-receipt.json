@@ -1,0 +1,18 @@
+{
+  "apply_receipt": "runs/fix-dx-routing/apply-receipt.json",
+  "control": [
+    "compiled_dsl",
+    "generated_unified_diff",
+    "wrote_receipts",
+    "applied_candidate"
+  ],
+  "delta": "make the realtime DX surface load from the root and from local clean-url paths",
+  "diff": "runs/fix-dx-routing/diff.patch",
+  "dsl_plan": "runs/fix-dx-routing-dsl.json",
+  "file_count": 3,
+  "generate_receipt": "runs/fix-dx-routing/generate-receipt.json",
+  "next_state": "transition_applied",
+  "op_count": 3,
+  "plan": "runs/fix-dx-routing/plan.json",
+  "state": "dsl_packet_loaded"
+}

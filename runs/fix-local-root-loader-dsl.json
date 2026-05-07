@@ -1,0 +1,39 @@
+{
+  "intent": "make local root render the realtime DX page directly instead of relying on meta refresh",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "ensure_file",
+      "path": "site/index.html",
+      "lines": [
+        "<!doctype html>",
+        "<html lang=\"en\">",
+        "  <head>",
+        "    <meta charset=\"utf-8\">",
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+        "    <title>BVT Realtime DX</title>",
+        "    <style>",
+        "      html, body { margin: 0; width: 100%; min-height: 100%; background: #050607; }",
+        "      iframe { display: block; width: 100vw; height: 100vh; border: 0; background: #050607; }",
+        "      .fallback { position: fixed; inset: auto 16px 16px 16px; color: #9ca79f; font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }",
+        "      .fallback a { color: #4cffac; }",
+        "    </style>",
+        "  </head>",
+        "  <body>",
+        "    <iframe src=\"dx.html\" title=\"BVT Realtime DX\"></iframe>",
+        "    <div class=\"fallback\">If the frame does not load, open <a href=\"dx.html\">dx.html</a>.</div>",
+        "  </body>",
+        "</html>"
+      ]
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Routing note:",
+      "lines": [
+        "",
+        "Local root note: `site/index.html` embeds `dx.html` directly so the in-app browser does not depend on meta-refresh behavior."
+      ]
+    }
+  ]
+}

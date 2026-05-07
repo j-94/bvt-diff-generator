@@ -1,141 +1,18 @@
 <!doctype html>
-<html lang='en'>
+<html lang="en">
   <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Codex Live Run</title>
-    <meta name='description' content='A terminal-first live run showing Codex routing one intent through a no-rebuild BVT engine packet.'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BVT Realtime DX</title>
     <style>
-      :root { color-scheme: dark; --bg: #050607; --ink: #f5f7f2; --muted: #9aa39b; --line: #27302c; --green: #4cffac; --blue: #8ab4ff; --amber: #ffd36e; --red: #ff7d7d; }
-      * { box-sizing: border-box; }
-      body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-      main { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
-      header { padding: 18px clamp(14px, 3vw, 34px); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: start; gap: 20px; }
-      h1 { margin: 0; font-size: clamp(24px, 5vw, 54px); letter-spacing: 0; line-height: .95; }
-      .sub { margin-top: 8px; color: var(--muted); max-width: 920px; font-size: 14px; line-height: 1.45; }
-      .pill { border: 1px solid var(--line); color: var(--green); padding: 8px 10px; white-space: nowrap; }
-      .grid { min-height: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(360px, .75fr); }
-      .terminal, .side { min-height: 0; padding: clamp(14px, 2vw, 24px); }
-      .terminal { border-right: 1px solid var(--line); }
-      .chrome { height: 100%; min-height: 560px; border: 1px solid var(--line); background: #080b0a; display: grid; grid-template-rows: auto 1fr auto; }
-      .bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
-      .dot { width: 10px; height: 10px; border-radius: 50%; background: #313936; }
-      .dot:nth-child(1) { background: var(--red); } .dot:nth-child(2) { background: var(--amber); } .dot:nth-child(3) { background: var(--green); }
-      #term { overflow: auto; padding: 14px; font-size: 13px; line-height: 1.55; }
-      .line { white-space: pre-wrap; color: #dbe5dc; }
-      .prompt { color: var(--green); } .tool { color: var(--blue); } .ok { color: var(--green); } .warn { color: var(--amber); } .dim { color: var(--muted); }
-      .input { border-top: 1px solid var(--line); padding: 12px 14px; display: flex; gap: 10px; color: var(--muted); }
-      .cursor { display: inline-block; width: 8px; height: 16px; background: var(--green); animation: blink 1s steps(2, start) infinite; transform: translateY(3px); }
-      .panel { border: 1px solid var(--line); background: #080b0a; margin-bottom: 14px; }
-      .panel h2 { margin: 0; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--green); }
-      .kv { display: grid; grid-template-columns: 132px 1fr; font-size: 12px; }
-      .kv div { padding: 9px 12px; border-bottom: 1px solid rgba(39,48,44,.72); min-width: 0; overflow-wrap: anywhere; }
-      .k { color: var(--muted); text-align: right; background: rgba(255,255,255,.02); }
-      .v { color: var(--ink); } .v.good { color: var(--green); }
-      .meters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px; }
-      .meter { border: 1px solid var(--line); padding: 10px; min-height: 74px; }
-      .meter span { display: block; color: var(--muted); font-size: 11px; }
-      .meter strong { display: block; margin-top: 8px; font-size: 22px; color: var(--green); }
-      .mini { padding: 12px 14px; color: var(--muted); font-size: 12px; line-height: 1.45; }
-      a { color: var(--green); text-decoration: none; }
-      @keyframes blink { 50% { opacity: 0; } }
-      @media (max-width: 880px) { header { display: block; } .pill { display: inline-block; margin-top: 12px; } .grid { grid-template-columns: 1fr; } .terminal { border-right: 0; border-bottom: 1px solid var(--line); } .chrome { min-height: 520px; } .kv { grid-template-columns: 108px 1fr; } }
+      html, body { margin: 0; width: 100%; min-height: 100%; background: #050607; }
+      iframe { display: block; width: 100vw; height: 100vh; border: 0; background: #050607; }
+      .fallback { position: fixed; inset: auto 16px 16px 16px; color: #9ca79f; font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .fallback a { color: #4cffac; }
     </style>
   </head>
   <body>
-    <main>
-      <header>
-        <div>
-          <h1>Codex Live Run</h1>
-          <div class='sub'>One high-level instruction becomes one no-rebuild BVT packet. This page is intentionally blank and terminal-first: no CTA theatre, no fake product cards, just the run, artifacts, and receipts.</div>
-        </div>
-        <div class='pill'>inspired by wterm / Ghostty terminal surfaces</div>
-      </header>
-      <section class='grid'>
-        <div class='terminal'>
-          <div class='chrome'>
-            <div class='bar'><span class='dot'></span><span class='dot'></span><span class='dot'></span><span>codex@bvt-live-run</span></div>
-            <div id='term' aria-live='polite'></div>
-            <div class='input'><span class='prompt'>$</span><span>render current system as a live Codex run</span><span class='cursor'></span></div>
-          </div>
-        </div>
-        <aside class='side'>
-          <section class='panel'>
-            <h2>Run Receipt</h2>
-            <div class='kv'>
-              <div class='k'>engine</div><div class='v'>target/debug/bvt-diff-generator</div>
-              <div class='k'>command</div><div class='v good'>run-dsl</div>
-              <div class='k'>packet</div><div class='v'>runs/blank-codex-live-run-dsl.json</div>
-              <div class='k'>run dir</div><div class='v'>runs/blank-codex-live-run</div>
-              <div class='k'>rebuilds</div><div class='v good'>0</div>
-              <div class='k'>writes</div><div class='v'>admitted site transition only</div>
-            </div>
-          </section>
-          <section class='panel'>
-            <h2>Live Metrics</h2>
-            <div class='meters'>
-              <div class='meter'><span>terminal frames</span><strong id='frames'>0</strong></div>
-              <div class='meter'><span>DOM mutations</span><strong id='mutations'>0</strong></div>
-              <div class='meter'><span>elapsed ms</span><strong id='elapsed'>0</strong></div>
-            </div>
-            <div class='mini'>Measured in this browser with MutationObserver and performance.now(). It proves this terminal view renders quickly; it does not prove product quality.</div>
-          </section>
-          <section class='panel'>
-            <h2>Artifacts</h2>
-            <div class='kv' id='artifacts'></div>
-          </section>
-        </aside>
-      </section>
-    </main>
-    <script>
-      const started = performance.now();
-      const term = document.getElementById('term');
-      const frames = document.getElementById('frames');
-      const mutations = document.getElementById('mutations');
-      const elapsed = document.getElementById('elapsed');
-      const artifacts = document.getElementById('artifacts');
-      let mutationCount = 0;
-      let frameCount = 0;
-      new MutationObserver(records => { mutationCount += records.length; mutations.textContent = mutationCount.toLocaleString(); }).observe(term, { childList: true, subtree: true, characterData: true });
-      const lines = [
-        ['prompt', 'codex: user asks for a blank real live run page'],
-        ['dim', 'policy: no rebuild for content transition; use existing engine binary'],
-        ['tool', '$ target/debug/bvt-diff-generator run-dsl runs/blank-codex-live-run-dsl.json --run-dir runs/blank-codex-live-run'],
-        ['ok', 'receipt: state=dsl_packet_loaded -> next_state=transition_applied'],
-        ['ok', 'artifacts: plan.json, diff.patch, generate-receipt.json, apply-receipt.json, run-receipt.json'],
-        ['tool', '$ vercel deploy site -y'],
-        ['ok', 'preview: current live terminal surface'],
-        ['warn', 'boundary: this is a rendered replay of the admitted transition; durable truth lives in git + receipts']
-      ];
-      const artifactRows = [
-        ['plan', 'runs/blank-codex-live-run/plan.json'],
-        ['diff', 'runs/blank-codex-live-run/diff.patch'],
-        ['generate', 'runs/blank-codex-live-run/generate-receipt.json'],
-        ['apply', 'runs/blank-codex-live-run/apply-receipt.json'],
-        ['run', 'runs/blank-codex-live-run/run-receipt.json']
-      ];
-      function appendLine(kind, text) {
-        const div = document.createElement('div');
-        div.className = 'line ' + kind;
-        div.textContent = text;
-        term.appendChild(div);
-        term.scrollTop = term.scrollHeight;
-        frameCount += 1;
-        frames.textContent = frameCount.toLocaleString();
-        elapsed.textContent = Math.round(performance.now() - started).toLocaleString();
-      }
-      function addArtifact(row) {
-        const k = document.createElement('div');
-        const v = document.createElement('div');
-        k.className = 'k';
-        v.className = 'v good';
-        k.textContent = row[0];
-        v.textContent = row[1];
-        artifacts.append(k, v);
-      }
-      lines.forEach((line, index) => setTimeout(() => appendLine(line[0], line[1]), index * 360));
-      artifactRows.forEach((row, index) => setTimeout(() => addArtifact(row), 900 + index * 260));
-      setInterval(() => { elapsed.textContent = Math.round(performance.now() - started).toLocaleString(); }, 250);
-    </script>
+    <iframe src="dx.html" title="BVT Realtime DX"></iframe>
+    <div class="fallback">If the frame does not load, open <a href="dx.html">dx.html</a>.</div>
   </body>
 </html>
