@@ -1,0 +1,62 @@
+{
+  "intent": "make the realtime DX surface load from the root and from local clean-url paths",
+  "base_dir": "/Users/jobs/Desktop/bvt-diff-generator",
+  "actions": [
+    {
+      "kind": "ensure_file",
+      "path": "site/index.html",
+      "lines": [
+        "<!doctype html>",
+        "<html lang=\"en\">",
+        "  <head>",
+        "    <meta charset=\"utf-8\">",
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+        "    <meta http-equiv=\"refresh\" content=\"0; url=dx.html\">",
+        "    <title>BVT Realtime DX</title>",
+        "    <style>",
+        "      :root { color-scheme: dark; --bg: #050607; --ink: #f4f7f2; --green: #4cffac; --muted: #9ca79f; }",
+        "      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }",
+        "      main { max-width: 680px; padding: 32px; line-height: 1.5; }",
+        "      a { color: var(--green); }",
+        "      p { color: var(--muted); }",
+        "    </style>",
+        "  </head>",
+        "  <body>",
+        "    <main>",
+        "      <h1>BVT Realtime DX</h1>",
+        "      <p>Redirecting to the realtime DSL/CI surface.</p>",
+        "      <p><a href=\"dx.html\">Open dx.html</a></p>",
+        "    </main>",
+        "  </body>",
+        "</html>"
+      ]
+    },
+    {
+      "kind": "ensure_file",
+      "path": "site/dx/index.html",
+      "lines": [
+        "<!doctype html>",
+        "<html lang=\"en\">",
+        "  <head>",
+        "    <meta charset=\"utf-8\">",
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+        "    <meta http-equiv=\"refresh\" content=\"0; url=../dx.html\">",
+        "    <title>BVT Realtime DX</title>",
+        "  </head>",
+        "  <body>",
+        "    <a href=\"../dx.html\">Open BVT Realtime DX</a>",
+        "  </body>",
+        "</html>"
+      ]
+    },
+    {
+      "kind": "insert_after_containing",
+      "path": "README.md",
+      "needle": "Realtime DX surface:",
+      "lines": [
+        "",
+        "Routing note: the site root now redirects to `dx.html`, and `site/dx/index.html` makes local clean-url testing work without depending on Vercel routing."
+      ]
+    }
+  ]
+}

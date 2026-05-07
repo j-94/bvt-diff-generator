@@ -8,6 +8,8 @@ Live site: https://site-mk0rzu4uw-jasedgws-projects.vercel.app
 
 Realtime DX surface: `site/dx.html` shows the production wedge: DSL packet -> BVT engine -> CI state artifact -> terminal/receipt viewer. It is wterm-ready, but still uses a zero-dependency terminal replay until the package is integrated.
 
+Routing note: the site root now redirects to `dx.html`, and `site/dx/index.html` makes local clean-url testing work without depending on Vercel routing.
+
 Current release benchmark: 320,000 typed ops -> 10,000 unified patch artifacts in roughly 0.22-0.24s, or about 41k-45k patches/sec at ~776 bytes/patch.
 
 UI factory claim boundary: this throughput can create many candidate UI diffs quickly, but admitted UI quality still requires render checks, design constraints, rollback, and BVT receipts.
